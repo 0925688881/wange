@@ -1,0 +1,1084 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#080f20">
+<title>QUANTGRID V2.1 PRO</title>
+<style>
+:root{
+--bg:#080f20;--panel:#111e34;--panel2:#172943;
+--line:#293e5d;--cyan:#22d3ee;--blue:#7895ff;
+--green:#34d399;--red:#fb7185;--gold:#fbbf24;
+--text:#e8f1ff;--muted:#91a5c1;
+}
+*{box-sizing:border-box}
+body{
+margin:0;background:var(--bg);color:var(--text);
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+font-size:15px;padding-bottom:30px;
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.header{
+padding:19px 15px;background:linear-gradient(120deg,#142541,#091326);
+border-bottom:1px solid var(--line)
+}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{
+width:49px;height:49px;border-radius:14px;
+display:grid;place-items:center;font-size:27px;
+color:var(--cyan);background:#073746;border:1px solid #1686a2
+}
+h1{font-size:23px;margin:0;font-weight:900;letter-spacing:1px}
+.subtitle{font-size:10px;color:var(--muted);margin-top:5px;letter-spacing:1px}
+.status{display:flex;gap:8px;align-items:center;margin-top:13px;
+font-size:12px;color:var(--muted);flex-wrap:wrap}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--gold)}
+.dot.ok{background:var(--green);box-shadow:0 0 8px var(--green)}
+.dot.bad{background:var(--red)}
+.container{max-width:1300px;margin:auto;padding:13px}
+.title{
+font-weight:900;font-size:16px;margin:19px 0 12px;
+display:flex;align-items:center;gap:9px
+}
+.title:before{content:"";width:4px;height:20px;background:var(--cyan);border-radius:5px}
+.toolbar{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.control,.card,.panel{
+background:var(--panel);border:1px solid var(--line);border-radius:12px
+}
+.control{padding:10px}
+.control label,.field label{display:block;color:var(--muted);font-size:11px;margin-bottom:6px}
+.control input,.control select,.field input,.field select{
+width:100%;background:#091428;color:var(--cyan);
+border:1px solid #354b69;border-radius:7px;padding:10px;
+font-size:16px;outline:none
+}
+.btn{
+background:linear-gradient(100deg,#087f9c,#315ed2);
+color:white;border:0;border-radius:10px;padding:12px;
+font-weight:bold;width:100%;margin-top:10px
+}
+.btn:disabled{opacity:.5}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:15px 0}
+.tab{
+padding:13px 3px;background:#111e34;color:var(--muted);
+border:1px solid var(--line);border-radius:9px;font-weight:bold;font-size:12px
+}
+.tab.active{background:#075b72;border-color:var(--cyan);color:white}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:13px}
+.card{padding:13px;min-width:0}
+.label{font-size:11px;color:var(--muted);line-height:1.5}
+.value{font-size:21px;font-weight:900;margin-top:7px;overflow-wrap:anywhere}
+.sub{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.5}
+.cyan{color:var(--cyan)}.green{color:var(--green)}
+.red{color:var(--red)}.gold{color:var(--gold)}.blue{color:var(--blue)}
+.panel{padding:13px;margin-bottom:13px}
+.head{display:flex;justify-content:space-between;align-items:center;
+gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.head strong{font-size:15px}
+.small{font-size:11px;color:var(--muted);line-height:1.6}
+.filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:11px}
+.chip{
+padding:8px 11px;background:#09162a;border:1px solid var(--line);
+border-radius:8px;color:var(--muted);font-size:12px;font-weight:bold
+}
+.chip.active{background:#075b72;border-color:var(--cyan);color:white}
+.table-wrap{overflow-x:auto;width:100%}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:12px}
+th{
+background:#09162a;color:#a5bad4;padding:12px 9px;
+text-align:right;white-space:nowrap
+}
+td{padding:12px 9px;border-bottom:1px solid #253650;
+text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+tr:hover td{background:#1b2c44}
+.symbol{font-weight:900;color:white;font-size:13px}
+.pair{font-size:10px;color:var(--muted);margin-top:4px}
+.tag{font-size:10px;padding:4px 7px;border-radius:5px;background:#123b40;color:var(--green)}
+.info{
+background:#10283a;border-left:3px solid var(--cyan);
+border-radius:5px;padding:12px;font-size:12px;
+line-height:1.8;color:#c2d8ee;margin:11px 0
+}
+.empty{text-align:center;padding:30px 12px;color:var(--muted);line-height:1.8}
+.progress{height:5px;background:#263953;border-radius:8px;overflow:hidden;margin-top:10px}
+.progress div{height:100%;background:var(--cyan);width:0;transition:.3s}
+.fieldgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.field input,.field select{margin-top:5px}
+.hidden{display:none!important}
+hr{border:0;border-top:1px solid var(--line);margin:14px 0}
+footer{text-align:center;color:#71849d;font-size:11px;line-height:1.8;padding:20px}
+@media(min-width:700px){
+.container{padding:22px}
+.toolbar{grid-template-columns:repeat(4,1fr)}
+.cards{grid-template-columns:repeat(4,1fr)}
+h1{font-size:28px}
+.tab{font-size:14px}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+<div class="brand">
+<div class="logo">◈</div>
+<div>
+<h1>QUANTGRID <span class="cyan">V2.1 PRO</span></h1>
+<div class="subtitle">PIONEX FIRST · REAL GRID BACKTEST SYSTEM</div>
+</div>
+</div>
+<div class="status">
+<span class="dot" id="dot"></span>
+<span id="status">準備連線派網</span>
+<span>｜</span>
+<span id="updated">尚未更新</span>
+</div>
+</header>
+
+<main class="container">
+
+<div class="title">資金與交易設定</div>
+<div class="toolbar">
+<div class="control">
+<label>投資本金 USDT</label>
+<input id="capital" type="number" value="10000" min="100">
+</div>
+<div class="control">
+<label>USDT / TWD</label>
+<input id="rate" type="number" value="32.5" step=".1">
+</div>
+<div class="control">
+<label>網格數量</label>
+<select id="grids">
+<option>10</option><option>20</option>
+<option selected>30</option><option>40</option>
+<option>50</option><option>60</option>
+</select>
+</div>
+<div class="control">
+<label>單邊手續費 (%)</label>
+<input id="fee" type="number" value="0.05" min="0" step=".01">
+</div>
+</div>
+<button class="btn" id="refresh" onclick="refreshMarket()">↻ 更新派網真實行情</button>
+
+<nav class="tabs">
+<button class="tab active" data-page="grid" onclick="page('grid')">▦ 網格行情</button>
+<button class="tab" data-page="stocks" onclick="page('stocks')">🔥 美股排行榜</button>
+<button class="tab" data-page="strategy" onclick="page('strategy')">◈ 實戰回測</button>
+</nav>
+
+<!-- 第一頁 -->
+<section id="grid">
+<div class="cards">
+<div class="card">
+<div class="label">投入台幣</div>
+<div class="value green" id="twd">--</div>
+<div class="sub">本金 × 匯率</div>
+</div>
+<div class="card">
+<div class="label">派網 USDT 交易對</div>
+<div class="value cyan" id="pairCount">--</div>
+<div class="sub">實際取得上市資料</div>
+</div>
+<div class="card">
+<div class="label">目前顯示標的</div>
+<div class="value blue" id="visible">0</div>
+<div class="sub">交易對篩選結果</div>
+</div>
+<div class="card">
+<div class="label">行情來源</div>
+<div class="value cyan">PIONEX</div>
+<div class="sub">公開現貨 API</div>
+</div>
+</div>
+
+<div class="panel">
+<div class="head"><strong>資產篩選</strong></div>
+<div class="filters" id="catFilters">
+<button class="chip active" onclick="category('all',this)">全部</button>
+<button class="chip" onclick="category('major',this)">BTC/ETH/BNB</button>
+<button class="chip" onclick="category('stock',this)">美股代幣</button>
+<button class="chip" onclick="category('other',this)">其他加密貨幣</button>
+</div>
+<div class="filters" id="sortFilters">
+<button class="chip active" onclick="sortBy('volume',this)">成交額</button>
+<button class="chip" onclick="sortBy('change',this)">24H漲幅</button>
+<button class="chip" onclick="sortBy('range',this)">24H振幅</button>
+</div>
+</div>
+
+<div class="title">派網即時行情</div>
+<div class="panel">
+<div class="head"><strong>交易對資料矩陣</strong><span class="small">點選分析可查看網格參數</span></div>
+<div class="table-wrap">
+<table>
+<thead><tr>
+<th>標的</th><th>現價</th><th>24H漲跌</th>
+<th>最高</th><th>最低</th><th>成交額</th><th>分析</th>
+</tr></thead>
+<tbody id="marketTable"><tr><td colspan="7" class="empty">等待行情</td></tr></tbody>
+</table>
+</div>
+</div>
+
+<div class="title">網格參數分析</div>
+<div class="panel" id="detail"><div class="empty">請選擇一個標的</div></div>
+</section>
+
+<!-- 第二頁 -->
+<section id="stocks" class="hidden">
+<div class="info">
+排行榜僅採用派網實際上市的交易對。歷史漲幅及波動率由派網日線 K 線計算，不使用預設漲幅。
+</div>
+<div class="panel">
+<div class="head"><strong>排行榜週期</strong></div>
+<div class="filters" id="stockPeriods">
+<button class="chip active" onclick="stockPeriod(30,this)">30天</button>
+<button class="chip" onclick="stockPeriod(60,this)">60天</button>
+<button class="chip" onclick="stockPeriod(180,this)">180天</button>
+</div>
+<button class="btn" id="stockRun" onclick="loadStocks()">重新計算排行榜</button>
+<div class="progress"><div id="stockBar"></div></div>
+<div class="small" id="stockProgress">等待開始</div>
+</div>
+<div class="cards">
+<div class="card"><div class="label">最高漲幅</div><div class="value gold" id="stockTop">--</div><div class="sub" id="stockTopName">--</div></div>
+<div class="card"><div class="label">Top 10平均漲幅</div><div class="value green" id="stockAvg">--</div></div>
+<div class="card"><div class="label">年化平均波動率</div><div class="value gold" id="stockVol">--</div></div>
+<div class="card"><div class="label">有效標的數</div><div class="value cyan" id="stockCount">0</div></div>
+</div>
+<div class="panel">
+<div class="head"><strong>美股代幣漲幅排行榜 Top 10</strong></div>
+<div class="table-wrap">
+<table>
+<thead><tr>
+<th>排名</th><th>標的</th><th>現價</th>
+<th>漲幅</th><th>年化波動</th><th>最大回撤</th><th>成交額</th>
+</tr></thead>
+<tbody id="stockTable"><tr><td colspan="7" class="empty">等待計算</td></tr></tbody>
+</table>
+</div>
+</div>
+</section>
+
+<!-- 第三頁 -->
+<section id="strategy" class="hidden">
+<div class="info">
+V2.1 採用歷史 OHLC 日線逐格模擬。以起始價格建立固定幾何網格，初始本金各配置 50% USDT 與標的資產。逐日依照 K 線高低價路徑模擬買賣，扣除雙邊手續費，計算期末持倉與資產淨值。<br>
+注意：日線 OHLC 無法還原真實逐筆成交順序，因此這是情境回測，不是派網機器人歷史成交紀錄。
+</div>
+
+<div class="panel">
+<div class="head"><strong>回測參數</strong></div>
+<div class="fieldgrid">
+<div class="field">
+<label>回測週期</label>
+<select id="days">
+<option value="30">最近30天</option>
+<option value="60">最近60天</option>
+<option value="90">最近90天</option>
+<option value="180" selected>最近180天</option>
+</select>
+</div>
+<div class="field">
+<label>比較標的數</label>
+<select id="limit">
+<option>5</option><option selected>10</option>
+<option>20</option><option>30</option>
+</select>
+</div>
+<div class="field">
+<label>網格上下範圍 (%)</label>
+<input id="gridRange" type="number" value="15" min="2" max="50">
+</div>
+<div class="field">
+<label>初始資產配置 (%)</label>
+<input id="initialRatio" type="number" value="50" min="10" max="90">
+</div>
+</div>
+<div class="filters" id="strategyTypes" style="margin-top:13px">
+<button class="chip active" onclick="strategyCategory('major',this)">主流幣</button>
+<button class="chip" onclick="strategyCategory('stock',this)">美股代幣</button>
+<button class="chip" onclick="strategyCategory('all',this)">全部</button>
+</div>
+<button class="btn" id="runBacktest" onclick="runBacktest()">▶ 開始逐日網格回測</button>
+<div class="progress"><div id="backBar"></div></div>
+<div class="small" id="backProgress">等待開始</div>
+</div>
+
+<div class="cards">
+<div class="card"><div class="label">最佳標的</div><div class="value gold" id="bestName">--</div><div class="sub">依模擬淨利排名</div></div>
+<div class="card"><div class="label">模擬淨利</div><div class="value green" id="bestProfit">--</div><div class="sub">USDT</div></div>
+<div class="card"><div class="label">淨收益率</div><div class="value cyan" id="bestReturn">--</div></div>
+<div class="card"><div class="label">最大資產回撤</div><div class="value red" id="bestDD">--</div></div>
+</div>
+
+<div class="panel">
+<div class="head"><strong>逐日網格回測排行榜</strong><span class="small">淨利由高至低</span></div>
+<div class="table-wrap">
+<table>
+<thead><tr>
+<th>排名</th><th>標的</th><th>期末價格</th>
+<th>買賣次數</th><th>已實現利潤</th>
+<th>未實現盈虧</th><th>淨利</th>
+<th>收益率</th><th>最大回撤</th>
+</tr></thead>
+<tbody id="backTable"><tr><td colspan="9" class="empty">等待回測</td></tr></tbody>
+</table>
+</div>
+</div>
+
+<div class="title">最佳標的資產明細</div>
+<div class="panel" id="bestDetail"><div class="empty">完成回測後顯示詳細資產</div></div>
+
+<div class="title">回測交易紀錄</div>
+<div class="panel">
+<div class="head"><strong>最近交易紀錄</strong><span class="small">最多顯示最近50筆</span></div>
+<div class="table-wrap">
+<table>
+<thead><tr>
+<th>日期</th><th>方向</th><th>價格</th>
+<th>數量</th><th>交易金額</th><th>手續費</th>
+</tr></thead>
+<tbody id="tradeTable"><tr><td colspan="6" class="empty">等待回測</td></tr></tbody>
+</table>
+</div>
+</div>
+</section>
+
+<footer>
+QUANTGRID V2.1 PRO · PIONEX PUBLIC MARKET DATA<br>
+所有回測為歷史模擬，非實際成交紀錄，亦不保證未來收益。
+</footer>
+</main>
+
+<script>
+"use strict";
+
+/* ===============================
+   基本設定
+================================ */
+
+const API="https://api.pionex.com/api/v1";
+const $=id=>document.getElementById(id);
+
+let markets=[];
+let symbols=[];
+let selected=null;
+let cat="all";
+let sorting="volume";
+let stockDays=30;
+let strategyCat="major";
+let stockData=[];
+let backData=[];
+let running=false;
+
+const STOCK_NAMES={
+ AAPL:"Apple",TSLA:"Tesla",NVDA:"NVIDIA",
+ MSFT:"Microsoft",AMZN:"Amazon",GOOGL:"Alphabet",
+ META:"Meta",COIN:"Coinbase",MSTR:"MicroStrategy",
+ AMD:"AMD",HOOD:"Robinhood",CRCL:"Circle",
+ INTC:"Intel",PLTR:"Palantir",NFLX:"Netflix",
+ ORCL:"Oracle",AVGO:"Broadcom",SMCI:"Super Micro",
+ QQQ:"Nasdaq ETF",SPY:"S&P 500 ETF",
+ SPCX:"SpaceX"
+};
+
+const STOCK_CODES=Object.keys(STOCK_NAMES);
+const MAJOR=["BTC","ETH","BNB"];
+
+function num(id,def){
+ const v=Number($(id).value);
+ return Number.isFinite(v)?v:def;
+}
+function money(){return Math.max(100,num("capital",10000))}
+function fee(){return Math.max(0,num("fee",.05))/100}
+function grids(){return Math.max(2,Math.floor(num("grids",30)))}
+function fmt(v,d=2){
+ if(!Number.isFinite(Number(v)))return "--";
+ return Number(v).toLocaleString("en-US",{
+  minimumFractionDigits:d,maximumFractionDigits:d
+ });
+}
+function percent(v){
+ return (v>=0?"+":"")+fmt(v,2)+"%";
+}
+function base(s){return String(s||"").split("_")[0].toUpperCase()}
+function isMajor(s){return MAJOR.includes(base(s))}
+function isStock(s){return STOCK_CODES.includes(base(s))}
+function kind(s){
+ return isMajor(s)?"major":isStock(s)?"stock":"other";
+}
+function name(s){return STOCK_NAMES[base(s)]||base(s)}
+function escapeHTML(s){
+ return String(s??"").replace(/[&<>"']/g,c=>({
+ "&":"&amp;","<":"&lt;",">":"&gt;",
+ '"':"&quot;","'":"&#39;"
+ }[c]));
+}
+function status(s,type=""){
+ $("status").textContent=s;
+ $("dot").className="dot "+type;
+}
+
+async function api(path,timeout=18000){
+ const controller=new AbortController();
+ const timer=setTimeout(()=>controller.abort(),timeout);
+ try{
+  const r=await fetch(API+path,{
+   cache:"no-store",signal:controller.signal
+  });
+  if(!r.ok)throw Error("HTTP "+r.status);
+  const d=await r.json();
+  if(d.result===false)throw Error("派網 API 回傳失敗");
+  return d;
+ }finally{
+  clearTimeout(timer);
+ }
+}
+
+async function getSymbols(){
+ const d=await api("/common/symbols?type=SPOT");
+ return d.data?.symbols||[];
+}
+async function getTickers(){
+ const d=await api("/market/tickers?type=SPOT");
+ return d.data?.tickers||[];
+}
+function normalize(t){
+ const p=Number(t.close);
+ if(!Number.isFinite(p)||p<=0)return null;
+ const o=Number(t.open);
+ return {
+  symbol:t.symbol,price:p,
+  open:o>0?o:p,
+  high:Number(t.high)||p,
+  low:Number(t.low)||p,
+  amount:Number(t.amount)||0,
+  volume:Number(t.volume)||0,
+  change:o>0?(p/o-1)*100:0
+ };
+}
+
+/* ===============================
+   即時行情
+================================ */
+
+async function refreshMarket(){
+ if(running)return;
+ running=true;
+ $("refresh").disabled=true;
+ $("refresh").textContent="正在取得派網行情...";
+ status("正在連線派網...");
+ try{
+  const [s,t]=await Promise.all([getSymbols(),getTickers()]);
+  symbols=s.filter(x=>x.type==="SPOT"&&x.enable!==false);
+  const allowed=new Set(symbols.map(x=>x.symbol));
+  markets=t.map(normalize).filter(x=>
+   x&&x.symbol.endsWith("_USDT")&&
+   (!allowed.size||allowed.has(x.symbol))
+  );
+  $("pairCount").textContent=markets.length;
+  $("updated").textContent=new Date().toLocaleTimeString("zh-TW");
+  status("派網行情連線成功","ok");
+  renderMarket();
+  updateMoney();
+  if(selected){
+   selected=markets.find(x=>x.symbol===selected.symbol)||selected;
+   renderSelected();
+  }
+ }catch(e){
+  console.error(e);
+  status("行情連線失敗："+e.message,"bad");
+  if(!markets.length){
+   $("marketTable").innerHTML=
+    `<tr><td colspan="7" class="empty">
+    無法取得派網行情。請檢查網路或稍後重試。<br>
+    本系統不會以預設假價格代替。
+    </td></tr>`;
+  }
+ }finally{
+  running=false;
+  $("refresh").disabled=false;
+  $("refresh").textContent="↻ 更新派網真實行情";
+ }
+}
+
+function updateMoney(){
+ $("twd").textContent="NT$ "+fmt(money()*num("rate",32.5),0);
+}
+
+function category(v,btn){
+ cat=v;
+ btn.parentElement.querySelectorAll(".chip").forEach(x=>x.classList.remove("active"));
+ btn.classList.add("active");
+ renderMarket();
+}
+function sortBy(v,btn){
+ sorting=v;
+ btn.parentElement.querySelectorAll(".chip").forEach(x=>x.classList.remove("active"));
+ btn.classList.add("active");
+ renderMarket();
+}
+
+function suggestedRange(t){
+ const r=Math.max(2,num("gridRange",15))/100;
+ return {low:t.price*(1-r),high:t.price*(1+r)};
+}
+
+function renderMarket(){
+ let arr=markets.filter(t=>cat==="all"||kind(t.symbol)===cat);
+ if(sorting==="volume")arr.sort((a,b)=>b.amount-a.amount);
+ if(sorting==="change")arr.sort((a,b)=>b.change-a.change);
+ if(sorting==="range")arr.sort((a,b)=>
+  (b.high-b.low)/b.price-(a.high-a.low)/a.price
+ );
+ $("visible").textContent=arr.length;
+ if(!arr.length){
+  $("marketTable").innerHTML='<tr><td colspan="7" class="empty">沒有符合條件的交易對</td></tr>';
+  return;
+ }
+ $("marketTable").innerHTML=arr.slice(0,200).map(t=>`
+ <tr>
+ <td><div class="symbol">${escapeHTML(base(t.symbol))}</div><div class="pair">${escapeHTML(t.symbol)}</div></td>
+ <td>${fmt(t.price,6)}</td>
+ <td class="${t.change>=0?"green":"red"}">${percent(t.change)}</td>
+ <td>${fmt(t.high,6)}</td>
+ <td>${fmt(t.low,6)}</td>
+ <td>${fmt(t.amount,0)}</td>
+ <td><button class="chip" onclick="choose('${escapeHTML(t.symbol)}')">分析</button></td>
+ </tr>`).join("");
+}
+
+function choose(s){
+ selected=markets.find(t=>t.symbol===s);
+ renderSelected();
+ $("detail").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function renderSelected(){
+ const t=selected;
+ if(!t)return;
+ const r=suggestedRange(t);
+ const n=grids();
+ const step=(r.high/r.low)**(1/n)-1;
+ const per=money()/n;
+ const gross=per*step;
+ const net=gross-per*fee()*2;
+ $("detail").innerHTML=`
+ <div class="head">
+ <strong class="cyan">${escapeHTML(t.symbol)}</strong>
+ <span class="tag">派網現貨行情</span>
+ </div>
+ <div class="cards">
+ <div class="card"><div class="label">目前價格</div><div class="value cyan">${fmt(t.price,6)}</div></div>
+ <div class="card"><div class="label">網格間距</div><div class="value">${fmt(step*100,3)}%</div></div>
+ <div class="card"><div class="label">單格配置</div><div class="value">${fmt(per,2)} U</div></div>
+ <div class="card"><div class="label">理論單格淨利</div><div class="value green">${fmt(net,4)} U</div></div>
+ </div>
+ <div class="info">
+ 建議下限：${fmt(r.low,6)}<br>
+ 建議上限：${fmt(r.high,6)}<br>
+ 24H 振幅：${fmt((t.high-t.low)/t.price*100,2)}%<br>
+ 單次買賣手續費估算：${fmt(per*fee()*2,4)} U<br>
+ 注意：單格利潤是理論估算，非實際成交收益。
+ </div>
+ `;
+}
+
+/* ===============================
+   K 線
+================================ */
+
+function normalizeK(k){
+ let x;
+ if(Array.isArray(k)){
+  x={time:Number(k[0]),open:Number(k[1]),high:Number(k[2]),
+  low:Number(k[3]),close:Number(k[4]),volume:Number(k[5])};
+ }else{
+  x={time:Number(k.time),open:Number(k.open),high:Number(k.high),
+  low:Number(k.low),close:Number(k.close),volume:Number(k.volume)};
+ }
+ if(x.time<1e12)x.time*=1000;
+ return x;
+}
+
+async function candles(symbol,days){
+ const d=await api("/market/klines?symbol="+encodeURIComponent(symbol)+
+ "&interval=1D&limit="+Math.min(500,days+1));
+ return (d.data?.klines||[]).map(normalizeK)
+ .filter(k=>k.close>0&&k.open>0&&k.high>0&&k.low>0)
+ .sort((a,b)=>a.time-b.time);
+}
+
+function statistics(arr){
+ if(arr.length<2)return null;
+ const first=arr[0].close,last=arr[arr.length-1].close;
+ const rets=[];
+ let peak=arr[0].close,dd=0;
+ for(let i=1;i<arr.length;i++){
+  const p=arr[i].close;
+  rets.push(p/arr[i-1].close-1);
+  peak=Math.max(peak,p);
+  dd=Math.min(dd,(p/peak-1)*100);
+ }
+ const mean=rets.reduce((a,b)=>a+b,0)/rets.length;
+ const variance=rets.reduce((a,b)=>a+(b-mean)**2,0)/rets.length;
+ return {
+  gain:(last/first-1)*100,
+  volatility:Math.sqrt(variance)*Math.sqrt(365)*100,
+  drawdown:dd
+ };
+}
+
+async function pool(items,limit,fn,progress){
+ const out=new Array(items.length);
+ let next=0,done=0;
+ async function worker(){
+  while(true){
+   const i=next++;
+   if(i>=items.length)return;
+   try{out[i]=await fn(items[i],i)}catch(e){out[i]=null}
+   done++;
+   if(progress)progress(done,items.length);
+  }
+ }
+ await Promise.all(Array.from({length:Math.min(limit,items.length)},worker));
+ return out;
+}
+
+/* ===============================
+   美股排行
+================================ */
+
+function stockPeriod(days,btn){
+ stockDays=days;
+ btn.parentElement.querySelectorAll(".chip").forEach(x=>x.classList.remove("active"));
+ btn.classList.add("active");
+ loadStocks();
+}
+
+async function loadStocks(){
+ if(!markets.length){alert("請先更新派網行情");return}
+ $("stockRun").disabled=true;
+ $("stockRun").textContent="正在分析...";
+ $("stockTable").innerHTML='<tr><td colspan="7" class="empty">讀取歷史日線中...</td></tr>';
+ const list=markets.filter(t=>isStock(t.symbol));
+ const out=await pool(list,3,async t=>{
+  const c=await candles(t.symbol,stockDays);
+  if(c.length<Math.min(stockDays,20))return null;
+  const s=statistics(c);
+  return s?{...t,...s}:null;
+ },(done,total)=>{
+  $("stockBar").style.width=(done/total*100)+"%";
+  $("stockProgress").textContent=`完成 ${done}/${total}`;
+ });
+ stockData=out.filter(Boolean).sort((a,b)=>b.gain-a.gain).slice(0,10);
+ renderStocks();
+ $("stockRun").disabled=false;
+ $("stockRun").textContent="重新計算排行榜";
+}
+
+function renderStocks(){
+ const a=stockData;
+ $("stockCount").textContent=a.length;
+ if(!a.length){
+  $("stockTable").innerHTML='<tr><td colspan="7" class="empty">沒有足夠的歷史資料</td></tr>';
+  return;
+ }
+ const avg=a.reduce((s,x)=>s+x.gain,0)/a.length;
+ const vol=a.reduce((s,x)=>s+x.volatility,0)/a.length;
+ $("stockTop").textContent=percent(a[0].gain);
+ $("stockTopName").textContent=name(a[0].symbol);
+ $("stockAvg").textContent=percent(avg);
+ $("stockVol").textContent=fmt(vol,2)+"%";
+ $("stockTable").innerHTML=a.map((x,i)=>`
+ <tr>
+ <td>${i+1}</td>
+ <td><b>${escapeHTML(name(x.symbol))}</b><div class="pair">${escapeHTML(x.symbol)}</div></td>
+ <td>${fmt(x.price,5)}</td>
+ <td class="${x.gain>=0?"green":"red"}">${percent(x.gain)}</td>
+ <td class="gold">${fmt(x.volatility,2)}%</td>
+ <td class="red">${fmt(x.drawdown,2)}%</td>
+ <td>${fmt(x.amount,0)}</td>
+ </tr>`).join("");
+}
+
+/* ===============================
+   V2.1 真正資產帳本模擬
+================================ */
+
+/*
+ 初始本金：
+ cash = 本金 * USDT比例
+ base = 本金 * 標的比例 / 初始價格
+
+ 每格基準數量：
+ 初始標的資產 / 網格數
+
+ 買進：
+ 扣除USDT及手續費，增加持幣和成本基礎。
+
+ 賣出：
+ 減少持幣，增加USDT，計算已實現利潤。
+
+ 期末：
+ 淨利 = 已實現利潤 + 未實現盈虧
+       = 期末資產 - 初始本金
+*/
+
+function simulateGrid(klines,config){
+ if(klines.length<10)return null;
+
+ const initial=config.capital;
+ const n=config.grids;
+ const feeRate=config.fee;
+ const ratio=config.ratio;
+ const first=klines[0].close;
+
+ const lower=first*(1-config.range);
+ const upper=first*(1+config.range);
+
+ if(lower<=0||upper<=lower)return null;
+
+ const step=(upper/lower)**(1/n);
+ const levels=[];
+ for(let i=0;i<=n;i++)levels.push(lower*Math.pow(step,i));
+
+ const initialCash=initial*ratio;
+ const initialCoinValue=initial*(1-ratio);
+ const unitCoin=(initialCoinValue/first)/n;
+
+ let cash=initialCash;
+ let coin=initialCoinValue/first;
+ let costBasis=initialCoinValue;
+ let realized=0;
+ let fees=0;
+ let buys=0,sells=0,skipped=0;
+ let peak=initial;
+ let maxDD=0;
+ let equityCurve=[];
+ let trades=[];
+
+ // 初始價位
+ let lastPrice=first;
+
+ function execute(level,direction,time){
+  const qty=unitCoin;
+  if(direction==="BUY"){
+   const gross=qty*level;
+   const charge=gross*feeRate;
+   const total=gross+charge;
+
+   if(cash+1e-10<total){skipped++;return}
+   cash-=total;
+   coin+=qty;
+   costBasis+=total;
+   fees+=charge;
+   buys++;
+   trades.push({
+    time,direction,price:level,qty,
+    amount:gross,fee:charge
+   });
+  }else{
+   if(coin+1e-10<qty){skipped++;return}
+   const gross=qty*level;
+   const charge=gross*feeRate;
+   const proceeds=gross-charge;
+   const avgCost=coin>0?costBasis/coin:0;
+   const removed=avgCost*qty;
+
+   coin-=qty;
+   costBasis-=removed;
+   if(coin<1e-10){coin=0;costBasis=0}
+   cash+=proceeds;
+   realized+=proceeds-removed;
+   fees+=charge;
+   sells++;
+   trades.push({
+    time,direction,price:level,qty,
+    amount:gross,fee:charge
+   });
+  }
+ }
+
+ function move(from,to,time){
+  if(Math.abs(to-from)<1e-12)return;
+
+  if(to>from){
+   // 上漲：逐格賣出
+   const crossed=levels.filter(x=>x>from+1e-12&&x<=to+1e-12);
+   crossed.sort((a,b)=>a-b);
+   crossed.forEach(level=>execute(level,"SELL",time));
+  }else{
+   // 下跌：逐格買入
+   const crossed=levels.filter(x=>x<from-1e-12&&x>=to-1e-12);
+   crossed.sort((a,b)=>b-a);
+   crossed.forEach(level=>execute(level,"BUY",time));
+  }
+ }
+
+ for(let i=0;i<klines.length;i++){
+  const k=klines[i];
+
+  if(i>0){
+   /*
+    日線沒有真實逐筆順序。
+    採固定情境路徑：
+    收紅：開盤→最低→最高→收盤
+    收黑：開盤→最高→最低→收盤
+   */
+   const path=k.close>=k.open?
+    [lastPrice,k.open,k.low,k.high,k.close]:
+    [lastPrice,k.open,k.high,k.low,k.close];
+
+   for(let j=1;j<path.length;j++){
+    move(path[j-1],path[j],k.time);
+   }
+  }
+
+  lastPrice=k.close;
+  const equity=cash+coin*k.close;
+  peak=Math.max(peak,equity);
+  const dd=peak>0?(equity/peak-1)*100:0;
+  maxDD=Math.min(maxDD,dd);
+  equityCurve.push({
+   time:k.time,equity,dd,price:k.close
+  });
+ }
+
+ const finalPrice=klines[klines.length-1].close;
+ const finalCoinValue=coin*finalPrice;
+ const finalEquity=cash+finalCoinValue;
+
+ const unrealized=finalCoinValue-costBasis;
+ const totalProfit=realized+unrealized;
+ const returnPct=totalProfit/initial*100;
+
+ return {
+  lower,upper,step,
+  initial,initialCash,initialCoinValue,
+  cash,coin,costBasis,
+  finalCoinValue,finalEquity,
+  realized,unrealized,totalProfit,returnPct,
+  fees,buys,sells,trades,skipped,
+  maxDD,finalPrice,
+  equityCurve,
+  days:klines.length-1,
+  tradeCount:buys+sells
+ };
+}
+
+function strategyCategory(v,btn){
+ strategyCat=v;
+ btn.parentElement.querySelectorAll(".chip").forEach(x=>x.classList.remove("active"));
+ btn.classList.add("active");
+}
+
+async function runBacktest(){
+ if(!markets.length){alert("請先取得派網行情");return}
+ if(running)return;
+
+ const days=num("days",180);
+ const limit=num("limit",10);
+ const range=num("gridRange",15)/100;
+ const ratio=num("initialRatio",50)/100;
+ const config={
+  capital:money(),
+  grids:grids(),
+  fee:fee(),
+  range,ratio
+ };
+
+ if(range<=0||range>=.8||ratio<=0||ratio>=1){
+  alert("請檢查網格範圍及初始資產比例");
+  return;
+ }
+
+ let candidates=markets.filter(t=>{
+  if(strategyCat==="all")return true;
+  return kind(t.symbol)===strategyCat;
+ });
+ candidates.sort((a,b)=>b.amount-a.amount);
+ candidates=candidates.slice(0,limit);
+
+ if(!candidates.length){alert("沒有可回測的交易對");return}
+
+ running=true;
+ $("runBacktest").disabled=true;
+ $("runBacktest").textContent="正在進行歷史回測...";
+ $("backTable").innerHTML='<tr><td colspan="9" class="empty">取得歷史 K 線並計算資產帳本...</td></tr>';
+ $("bestDetail").innerHTML='<div class="empty">回測處理中...</div>';
+
+ const output=await pool(candidates,2,async t=>{
+  const k=await candles(t.symbol,days);
+  if(k.length<Math.min(days,10))return null;
+  const result=simulateGrid(k,config);
+  return result?{symbol:t.symbol,name:name(t.symbol),...result}:null;
+ },(done,total)=>{
+  $("backBar").style.width=(done/total*100)+"%";
+  $("backProgress").textContent=`已完成 ${done}/${total} 個標的`;
+ });
+
+ backData=output.filter(Boolean).sort((a,b)=>b.totalProfit-a.totalProfit);
+ renderBacktest();
+
+ running=false;
+ $("runBacktest").disabled=false;
+ $("runBacktest").textContent="▶ 開始逐日網格回測";
+}
+
+/* ===============================
+   回測結果呈現
+================================ */
+
+function renderBacktest(){
+ const a=backData;
+ if(!a.length){
+  $("backTable").innerHTML='<tr><td colspan="9" class="empty">沒有足夠的歷史資料完成回測</td></tr>';
+  return;
+ }
+
+ const best=a[0];
+ $("bestName").textContent=base(best.symbol);
+ $("bestProfit").textContent=fmt(best.totalProfit,2);
+ $("bestReturn").textContent=percent(best.returnPct);
+ $("bestDD").textContent=fmt(best.maxDD,2)+"%";
+
+ $("backTable").innerHTML=a.map((x,i)=>`
+ <tr>
+ <td>${i+1}</td>
+ <td><b>${escapeHTML(base(x.symbol))}</b><div class="pair">${escapeHTML(x.symbol)}</div></td>
+ <td>${fmt(x.finalPrice,6)}</td>
+ <td>${x.tradeCount}</td>
+ <td class="${x.realized>=0?"green":"red"}">${fmt(x.realized,2)}</td>
+ <td class="${x.unrealized>=0?"green":"red"}">${fmt(x.unrealized,2)}</td>
+ <td class="${x.totalProfit>=0?"green":"red"}"><b>${fmt(x.totalProfit,2)}</b></td>
+ <td class="${x.returnPct>=0?"cyan":"red"}">${percent(x.returnPct)}</td>
+ <td class="red">${fmt(x.maxDD,2)}%</td>
+ </tr>`).join("");
+
+ renderBestDetail(best);
+ renderTrades(best);
+}
+
+function renderBestDetail(x){
+ $("bestDetail").innerHTML=`
+ <div class="head">
+ <strong class="cyan">${escapeHTML(x.symbol)} 資產帳本</strong>
+ <span class="tag">歷史模擬</span>
+ </div>
+ <div class="cards">
+ <div class="card">
+ <div class="label">初始本金</div>
+ <div class="value">${fmt(x.initial,2)} U</div>
+ </div>
+ <div class="card">
+ <div class="label">期末總資產</div>
+ <div class="value cyan">${fmt(x.finalEquity,2)} U</div>
+ </div>
+ <div class="card">
+ <div class="label">期末剩餘 USDT</div>
+ <div class="value">${fmt(x.cash,2)} U</div>
+ </div>
+ <div class="card">
+ <div class="label">持有幣市值</div>
+ <div class="value">${fmt(x.finalCoinValue,2)} U</div>
+ </div>
+ <div class="card">
+ <div class="label">已實現利潤</div>
+ <div class="value ${x.realized>=0?"green":"red"}">${fmt(x.realized,2)} U</div>
+ </div>
+ <div class="card">
+ <div class="label">未實現盈虧</div>
+ <div class="value ${x.unrealized>=0?"green":"red"}">${fmt(x.unrealized,2)} U</div>
+ </div>
+ <div class="card">
+ <div class="label">累計手續費</div>
+ <div class="value gold">${fmt(x.fees,2)} U</div>
+ </div>
+ <div class="card">
+ <div class="label">最大資產回撤</div>
+ <div class="value red">${fmt(x.maxDD,2)}%</div>
+ </div>
+ </div>
+ <div class="info">
+ 網格下限：${fmt(x.lower,6)}<br>
+ 網格上限：${fmt(x.upper,6)}<br>
+ 網格間距：${fmt(x.step*100,3)}%<br>
+ 買進次數：${x.buys} 次<br>
+ 賣出次數：${x.sells} 次<br>
+ 因資金或持幣不足而略過：${x.skipped} 次<br>
+ 期末持幣數量：${fmt(x.coin,8)}<br>
+ 剩餘持幣成本基礎：${fmt(x.costBasis,2)} U<br>
+ 期末資產折合台幣：NT$ ${fmt(x.finalEquity*num("rate",32.5),0)}<br>
+ <hr>
+ <b>淨利核對：</b><br>
+ 已實現利潤 ${fmt(x.realized,4)}<br>
+ + 未實現盈虧 ${fmt(x.unrealized,4)}<br>
+ = 總淨利 ${fmt(x.totalProfit,4)} U<br>
+ 期末資產 - 初始本金 = ${fmt(x.finalEquity-x.initial,4)} U
+ </div>
+ `;
+}
+
+function renderTrades(x){
+ const a=x.trades.slice(-50).reverse();
+ if(!a.length){
+  $("tradeTable").innerHTML='<tr><td colspan="6" class="empty">沒有完成交易</td></tr>';
+  return;
+ }
+ $("tradeTable").innerHTML=a.map(t=>`
+ <tr>
+ <td>${new Date(t.time).toLocaleDateString("zh-TW")}</td>
+ <td class="${t.direction==="BUY"?"green":"gold"}">${t.direction==="BUY"?"買進":"賣出"}</td>
+ <td>${fmt(t.price,6)}</td>
+ <td>${fmt(t.qty,8)}</td>
+ <td>${fmt(t.amount,4)}</td>
+ <td>${fmt(t.fee,5)}</td>
+ </tr>`).join("");
+}
+
+/* ===============================
+   頁面控制
+================================ */
+
+function page(p){
+ ["grid","stocks","strategy"].forEach(x=>{
+  $(x).classList.toggle("hidden",x!==p);
+ });
+ document.querySelectorAll(".tab").forEach(b=>{
+  b.classList.toggle("active",b.dataset.page===p);
+ });
+ if(p==="stocks"&&!stockData.length&&markets.length)loadStocks();
+}
+
+["capital","rate"].forEach(id=>{
+ $(id).addEventListener("input",updateMoney);
+});
+
+["grids","fee"].forEach(id=>{
+ $(id).addEventListener("change",()=>{
+  if(selected)renderSelected();
+ });
+});
+
+async function initialize(){
+ updateMoney();
+ await refreshMarket();
+}
+
+initialize();
+
+// 每60秒更新公開現貨行情
+setInterval(()=>{
+ if(!running&&document.visibilityState==="visible")refreshMarket();
+},60000);
+
+</script>
+</body>
+</html>
