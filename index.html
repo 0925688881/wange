@@ -4,1081 +4,1407 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="theme-color" content="#080f20">
-<title>QUANTGRID V2.1 PRO</title>
+<meta name="theme-color" content="#080d1b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>QUANTGRID V2.0｜量化網格分析</title>
 <style>
 :root{
---bg:#080f20;--panel:#111e34;--panel2:#172943;
---line:#293e5d;--cyan:#22d3ee;--blue:#7895ff;
---green:#34d399;--red:#fb7185;--gold:#fbbf24;
---text:#e8f1ff;--muted:#91a5c1;
+  --bg:#080d1b;
+  --panel:#111a2d;
+  --panel2:#17243b;
+  --line:#263750;
+  --text:#edf4ff;
+  --muted:#8fa2bf;
+  --cyan:#35d9ff;
+  --green:#35dfa0;
+  --red:#ff657c;
+  --yellow:#ffc75e;
+  --purple:#a78bfa;
 }
 *{box-sizing:border-box}
 body{
-margin:0;background:var(--bg);color:var(--text);
-font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-font-size:15px;padding-bottom:30px;
+  margin:0;
+  background:radial-gradient(circle at 50% -10%,#172b49 0,#080d1b 48%);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:16px;
+  padding-bottom:90px;
 }
 button,input,select{font:inherit}
 button{cursor:pointer}
-.header{
-padding:19px 15px;background:linear-gradient(120deg,#142541,#091326);
-border-bottom:1px solid var(--line)
+header{
+  padding:22px 17px 15px;
+  border-bottom:1px solid var(--line);
+  background:rgba(8,13,27,.95);
+  position:sticky;
+  top:0;
+  z-index:10;
 }
-.brand{display:flex;align-items:center;gap:12px}
+.brand{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
 .logo{
-width:49px;height:49px;border-radius:14px;
-display:grid;place-items:center;font-size:27px;
-color:var(--cyan);background:#073746;border:1px solid #1686a2
+  font-size:23px;
+  font-weight:900;
+  letter-spacing:2px;
+  color:var(--cyan);
 }
-h1{font-size:23px;margin:0;font-weight:900;letter-spacing:1px}
-.subtitle{font-size:10px;color:var(--muted);margin-top:5px;letter-spacing:1px}
-.status{display:flex;gap:8px;align-items:center;margin-top:13px;
-font-size:12px;color:var(--muted);flex-wrap:wrap}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--gold)}
-.dot.ok{background:var(--green);box-shadow:0 0 8px var(--green)}
-.dot.bad{background:var(--red)}
-.container{max-width:1300px;margin:auto;padding:13px}
-.title{
-font-weight:900;font-size:16px;margin:19px 0 12px;
-display:flex;align-items:center;gap:9px
+.version{
+  font-size:11px;
+  color:var(--green);
+  border:1px solid #287c68;
+  padding:5px 8px;
+  border-radius:20px;
 }
-.title:before{content:"";width:4px;height:20px;background:var(--cyan);border-radius:5px}
-.toolbar{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.control,.card,.panel{
-background:var(--panel);border:1px solid var(--line);border-radius:12px
+.subtitle{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:6px;
 }
-.control{padding:10px}
-.control label,.field label{display:block;color:var(--muted);font-size:11px;margin-bottom:6px}
-.control input,.control select,.field input,.field select{
-width:100%;background:#091428;color:var(--cyan);
-border:1px solid #354b69;border-radius:7px;padding:10px;
-font-size:16px;outline:none
+.status{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  font-size:12px;
+  margin-top:12px;
+  color:var(--muted);
 }
+.dot{
+  width:8px;height:8px;
+  border-radius:50%;
+  background:var(--yellow);
+}
+.dot.online{background:var(--green)}
+.dot.error{background:var(--red)}
+.tabs{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
+  padding:12px;
+  background:#0b1222;
+  position:sticky;
+  top:104px;
+  z-index:9;
+}
+.tab{
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:var(--panel);
+  color:var(--muted);
+  padding:12px 4px;
+  font-size:14px;
+  font-weight:700;
+}
+.tab.active{
+  background:#12324a;
+  border-color:var(--cyan);
+  color:var(--cyan);
+}
+main{padding:12px;max-width:1100px;margin:auto}
+.page{display:none}
+.page.active{display:block}
+.card{
+  background:linear-gradient(145deg,#142039,#0e1729);
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:15px;
+  margin-bottom:13px;
+  box-shadow:0 8px 25px rgba(0,0,0,.14);
+}
+h2{font-size:18px;margin:0 0 13px}
+h3{font-size:15px;margin:0 0 10px}
+.muted{color:var(--muted)}
+.small{font-size:12px}
+.row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+.grid2{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+.grid3{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:9px;
+}
+.metric{
+  background:#0a1324;
+  border:1px solid #22344e;
+  border-radius:11px;
+  padding:12px;
+  min-width:0;
+}
+.metric .label{font-size:12px;color:var(--muted)}
+.metric .value{
+  font-size:19px;
+  font-weight:800;
+  margin-top:7px;
+  overflow-wrap:anywhere;
+}
+.cyan{color:var(--cyan)}
+.green{color:var(--green)}
+.red{color:var(--red)}
+.yellow{color:var(--yellow)}
+.purple{color:var(--purple)}
+input,select{
+  width:100%;
+  min-width:0;
+  background:#091324;
+  color:var(--text);
+  border:1px solid #344761;
+  border-radius:9px;
+  padding:12px 10px;
+  outline:none;
+}
+input:focus,select:focus{border-color:var(--cyan)}
+label{
+  display:block;
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:6px;
+}
+.field{margin-bottom:12px}
 .btn{
-background:linear-gradient(100deg,#087f9c,#315ed2);
-color:white;border:0;border-radius:10px;padding:12px;
-font-weight:bold;width:100%;margin-top:10px
+  border:0;
+  border-radius:10px;
+  padding:12px 15px;
+  font-weight:800;
+  background:linear-gradient(110deg,#19bde9,#4779ff);
+  color:#03121e;
+  width:100%;
+}
+.btn.secondary{
+  background:#1b2b43;
+  color:var(--text);
+  border:1px solid #3a506c;
+}
+.btn.greenbtn{
+  background:linear-gradient(110deg,#20d99c,#55d9c5);
 }
 .btn:disabled{opacity:.5}
-.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:15px 0}
-.tab{
-padding:13px 3px;background:#111e34;color:var(--muted);
-border:1px solid var(--line);border-radius:9px;font-weight:bold;font-size:12px
+.buttonrow{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
 }
-.tab.active{background:#075b72;border-color:var(--cyan);color:white}
-.cards{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:13px}
-.card{padding:13px;min-width:0}
-.label{font-size:11px;color:var(--muted);line-height:1.5}
-.value{font-size:21px;font-weight:900;margin-top:7px;overflow-wrap:anywhere}
-.sub{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.5}
-.cyan{color:var(--cyan)}.green{color:var(--green)}
-.red{color:var(--red)}.gold{color:var(--gold)}.blue{color:var(--blue)}
-.panel{padding:13px;margin-bottom:13px}
-.head{display:flex;justify-content:space-between;align-items:center;
-gap:8px;flex-wrap:wrap;margin-bottom:12px}
-.head strong{font-size:15px}
-.small{font-size:11px;color:var(--muted);line-height:1.6}
-.filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:11px}
-.chip{
-padding:8px 11px;background:#09162a;border:1px solid var(--line);
-border-radius:8px;color:var(--muted);font-size:12px;font-weight:bold
+.tablewrap{
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
 }
-.chip.active{background:#075b72;border-color:var(--cyan);color:white}
-.table-wrap{overflow-x:auto;width:100%}
-table{border-collapse:collapse;width:100%;min-width:760px;font-size:12px}
+table{
+  border-collapse:collapse;
+  width:100%;
+  min-width:540px;
+  font-size:13px;
+}
 th{
-background:#09162a;color:#a5bad4;padding:12px 9px;
-text-align:right;white-space:nowrap
+  color:var(--muted);
+  font-weight:600;
+  background:#0c1729;
+  position:sticky;
+  top:0;
 }
-td{padding:12px 9px;border-bottom:1px solid #253650;
-text-align:right;white-space:nowrap}
-th:first-child,td:first-child{text-align:left}
-tr:hover td{background:#1b2c44}
-.symbol{font-weight:900;color:white;font-size:13px}
-.pair{font-size:10px;color:var(--muted);margin-top:4px}
-.tag{font-size:10px;padding:4px 7px;border-radius:5px;background:#123b40;color:var(--green)}
-.info{
-background:#10283a;border-left:3px solid var(--cyan);
-border-radius:5px;padding:12px;font-size:12px;
-line-height:1.8;color:#c2d8ee;margin:11px 0
+td,th{
+  padding:12px 9px;
+  border-bottom:1px solid #25364d;
+  text-align:right;
+  white-space:nowrap;
 }
-.empty{text-align:center;padding:30px 12px;color:var(--muted);line-height:1.8}
-.progress{height:5px;background:#263953;border-radius:8px;overflow:hidden;margin-top:10px}
-.progress div{height:100%;background:var(--cyan);width:0;transition:.3s}
-.fieldgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.field input,.field select{margin-top:5px}
-.hidden{display:none!important}
-hr{border:0;border-top:1px solid var(--line);margin:14px 0}
-footer{text-align:center;color:#71849d;font-size:11px;line-height:1.8;padding:20px}
+td:first-child,th:first-child{text-align:left}
+tr:last-child td{border-bottom:0}
+.coin{
+  color:var(--cyan);
+  font-weight:800;
+}
+.badge{
+  display:inline-block;
+  border-radius:6px;
+  padding:4px 7px;
+  font-size:11px;
+  background:#18334a;
+  color:var(--cyan);
+}
+.notice{
+  border:1px solid #66522d;
+  background:#302719;
+  color:#ffd98a;
+  padding:11px;
+  border-radius:9px;
+  font-size:12px;
+  line-height:1.7;
+  margin-bottom:12px;
+}
+.errorbox{
+  border:1px solid #813b4a;
+  background:#301923;
+  color:#ff9dad;
+  padding:12px;
+  border-radius:10px;
+  font-size:13px;
+  line-height:1.6;
+  margin-top:10px;
+  display:none;
+}
+.loading{
+  color:var(--cyan);
+  font-size:13px;
+  padding:12px 0;
+}
+.progress{
+  height:7px;
+  background:#26354a;
+  border-radius:10px;
+  overflow:hidden;
+  margin:10px 0;
+}
+.progress>div{
+  height:100%;
+  background:linear-gradient(90deg,var(--cyan),var(--green));
+  width:0%;
+}
+.barline{
+  height:9px;
+  background:#26354a;
+  border-radius:8px;
+  overflow:hidden;
+  margin-top:8px;
+}
+.barline>div{
+  height:100%;
+  border-radius:8px;
+  background:linear-gradient(90deg,#1bbde8,#8b9cff);
+}
+.resultrow{
+  padding:11px 0;
+  border-bottom:1px solid var(--line);
+}
+.resultrow:last-child{border:0}
+.bottomnote{
+  color:#71849f;
+  font-size:11px;
+  line-height:1.7;
+  text-align:center;
+  padding:15px 8px;
+}
+.sectiontitle{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:12px;
+}
+.sectiontitle h2{margin:0}
+.tag{
+  font-size:11px;
+  color:var(--green);
+  border:1px solid #27664f;
+  border-radius:20px;
+  padding:4px 8px;
+}
 @media(min-width:700px){
-.container{padding:22px}
-.toolbar{grid-template-columns:repeat(4,1fr)}
-.cards{grid-template-columns:repeat(4,1fr)}
-h1{font-size:28px}
-.tab{font-size:14px}
+  main{padding:20px}
+  .grid2{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .grid3{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 </style>
 </head>
 <body>
 
-<header class="header">
-<div class="brand">
-<div class="logo">◈</div>
-<div>
-<h1>QUANTGRID <span class="cyan">V2.1 PRO</span></h1>
-<div class="subtitle">PIONEX FIRST · REAL GRID BACKTEST SYSTEM</div>
-</div>
-</div>
-<div class="status">
-<span class="dot" id="dot"></span>
-<span id="status">準備連線派網</span>
-<span>｜</span>
-<span id="updated">尚未更新</span>
-</div>
+<header>
+  <div class="brand">
+    <div class="logo">◈ QUANTGRID</div>
+    <div class="version">V2.0 PRO</div>
+  </div>
+  <div class="subtitle">PIONEX REAL MARKET DATA · GRID STRATEGY LAB</div>
+  <div class="status">
+    <span id="statusDot" class="dot"></span>
+    <span id="statusText">正在連接派網行情服務...</span>
+    <span style="margin-left:auto" id="lastUpdate">尚未更新</span>
+  </div>
 </header>
 
-<main class="container">
-
-<div class="title">資金與交易設定</div>
-<div class="toolbar">
-<div class="control">
-<label>投資本金 USDT</label>
-<input id="capital" type="number" value="10000" min="100">
-</div>
-<div class="control">
-<label>USDT / TWD</label>
-<input id="rate" type="number" value="32.5" step=".1">
-</div>
-<div class="control">
-<label>網格數量</label>
-<select id="grids">
-<option>10</option><option>20</option>
-<option selected>30</option><option>40</option>
-<option>50</option><option>60</option>
-</select>
-</div>
-<div class="control">
-<label>單邊手續費 (%)</label>
-<input id="fee" type="number" value="0.05" min="0" step=".01">
-</div>
-</div>
-<button class="btn" id="refresh" onclick="refreshMarket()">↻ 更新派網真實行情</button>
-
 <nav class="tabs">
-<button class="tab active" data-page="grid" onclick="page('grid')">▦ 網格行情</button>
-<button class="tab" data-page="stocks" onclick="page('stocks')">🔥 美股排行榜</button>
-<button class="tab" data-page="strategy" onclick="page('strategy')">◈ 實戰回測</button>
+  <button class="tab active" data-page="market">行情矩陣</button>
+  <button class="tab" data-page="ranking">漲幅排行</button>
+  <button class="tab" data-page="strategy">策略比較</button>
 </nav>
 
-<!-- 第一頁 -->
-<section id="grid">
-<div class="cards">
-<div class="card">
-<div class="label">投入台幣</div>
-<div class="value green" id="twd">--</div>
-<div class="sub">本金 × 匯率</div>
-</div>
-<div class="card">
-<div class="label">派網 USDT 交易對</div>
-<div class="value cyan" id="pairCount">--</div>
-<div class="sub">實際取得上市資料</div>
-</div>
-<div class="card">
-<div class="label">目前顯示標的</div>
-<div class="value blue" id="visible">0</div>
-<div class="sub">交易對篩選結果</div>
-</div>
-<div class="card">
-<div class="label">行情來源</div>
-<div class="value cyan">PIONEX</div>
-<div class="sub">公開現貨 API</div>
-</div>
-</div>
+<main>
 
-<div class="panel">
-<div class="head"><strong>資產篩選</strong></div>
-<div class="filters" id="catFilters">
-<button class="chip active" onclick="category('all',this)">全部</button>
-<button class="chip" onclick="category('major',this)">BTC/ETH/BNB</button>
-<button class="chip" onclick="category('stock',this)">美股代幣</button>
-<button class="chip" onclick="category('other',this)">其他加密貨幣</button>
-</div>
-<div class="filters" id="sortFilters">
-<button class="chip active" onclick="sortBy('volume',this)">成交額</button>
-<button class="chip" onclick="sortBy('change',this)">24H漲幅</button>
-<button class="chip" onclick="sortBy('range',this)">24H振幅</button>
-</div>
-</div>
+<!-- 第一頁：行情矩陣 -->
+<section class="page active" id="market">
 
-<div class="title">派網即時行情</div>
-<div class="panel">
-<div class="head"><strong>交易對資料矩陣</strong><span class="small">點選分析可查看網格參數</span></div>
-<div class="table-wrap">
-<table>
-<thead><tr>
-<th>標的</th><th>現價</th><th>24H漲跌</th>
-<th>最高</th><th>最低</th><th>成交額</th><th>分析</th>
-</tr></thead>
-<tbody id="marketTable"><tr><td colspan="7" class="empty">等待行情</td></tr></tbody>
-</table>
-</div>
-</div>
+  <div class="card">
+    <div class="sectiontitle">
+      <h2>◈ 市場總覽</h2>
+      <span class="tag">派網即時資料</span>
+    </div>
+    <div class="grid3">
+      <div class="metric">
+        <div class="label">USDT交易對</div>
+        <div class="value cyan" id="totalPairs">--</div>
+      </div>
+      <div class="metric">
+        <div class="label">上漲數量</div>
+        <div class="value green" id="upCount">--</div>
+      </div>
+      <div class="metric">
+        <div class="label">下跌數量</div>
+        <div class="value red" id="downCount">--</div>
+      </div>
+    </div>
+    <div style="margin-top:13px">
+      <button class="btn" id="refreshBtn">↻ 重新載入派網行情</button>
+    </div>
+    <div class="errorbox" id="marketError"></div>
+  </div>
 
-<div class="title">網格參數分析</div>
-<div class="panel" id="detail"><div class="empty">請選擇一個標的</div></div>
+  <div class="card">
+    <h2>⚙ 網格試算設定</h2>
+    <div class="grid2">
+      <div class="field">
+        <label>投入本金 USDT</label>
+        <input id="capital" type="number" value="10000" min="10">
+      </div>
+      <div class="field">
+        <label>網格數量</label>
+        <input id="gridCount" type="number" value="30" min="2" max="200">
+      </div>
+      <div class="field">
+        <label>網格上界（起始價上方 %）</label>
+        <input id="upperPct" type="number" value="15" min="1" max="90">
+      </div>
+      <div class="field">
+        <label>網格下界（起始價下方 %）</label>
+        <input id="lowerPct" type="number" value="15" min="1" max="90">
+      </div>
+      <div class="field">
+        <label>單邊手續費率 %</label>
+        <input id="feeRate" type="number" value="0.05" min="0" max="2" step="0.01">
+      </div>
+      <div class="field">
+        <label>報價幣別</label>
+        <select id="quoteCurrency">
+          <option value="USDT">USDT</option>
+        </select>
+      </div>
+    </div>
+    <div class="notice">
+      網格收益為假設性估算。單格收益使用上下格價差及雙邊手續費計算，不代表實際成交頻率或保證年化收益。
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="row" style="margin-bottom:12px">
+      <h2 style="margin:0">市場交易對</h2>
+      <span class="small muted" id="marketCount">0 筆</span>
+    </div>
+    <div class="field">
+      <input id="coinSearch" placeholder="搜尋交易對，例如 BTC、ETH、SOL">
+    </div>
+    <div class="field">
+      <select id="sortMarket">
+        <option value="volume">依成交額排序</option>
+        <option value="change">依24H漲幅排序</option>
+        <option value="changeDown">依24H跌幅排序</option>
+        <option value="symbol">依名稱排序</option>
+      </select>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th>交易對</th>
+            <th>最新價格</th>
+            <th>24H漲跌</th>
+            <th>24H高</th>
+            <th>24H低</th>
+            <th>成交額</th>
+          </tr>
+        </thead>
+        <tbody id="marketTable">
+          <tr><td colspan="6" class="muted">等待行情載入...</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="small muted" style="margin-top:10px">
+      點擊任一交易對，可帶入網格試算及策略回測。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>▦ 網格收益估算</h2>
+    <div class="field">
+      <label>選擇交易對</label>
+      <select id="selectedSymbol">
+        <option value="BTC_USDT">BTC_USDT</option>
+      </select>
+    </div>
+    <div class="grid2">
+      <div class="metric">
+        <div class="label">目前價格</div>
+        <div class="value cyan" id="calcPrice">--</div>
+      </div>
+      <div class="metric">
+        <div class="label">網格上界</div>
+        <div class="value" id="calcUpper">--</div>
+      </div>
+      <div class="metric">
+        <div class="label">網格下界</div>
+        <div class="value" id="calcLower">--</div>
+      </div>
+      <div class="metric">
+        <div class="label">每格價差（估算）</div>
+        <div class="value" id="calcSpread">--</div>
+      </div>
+      <div class="metric">
+        <div class="label">單格毛利率</div>
+        <div class="value green" id="calcGross">--</div>
+      </div>
+      <div class="metric">
+        <div class="label">單格扣費後利率</div>
+        <div class="value cyan" id="calcNet">--</div>
+      </div>
+    </div>
+    <div class="notice" style="margin-top:12px">
+      此處只計算每格價格差及假設手續費後的單次交易收益。沒有真實網格成交筆數，因此不顯示虛構 APY。
+    </div>
+    <button class="btn secondary" id="calcBtn">重新計算網格</button>
+  </div>
+
 </section>
 
-<!-- 第二頁 -->
-<section id="stocks" class="hidden">
-<div class="info">
-排行榜僅採用派網實際上市的交易對。歷史漲幅及波動率由派網日線 K 線計算，不使用預設漲幅。
-</div>
-<div class="panel">
-<div class="head"><strong>排行榜週期</strong></div>
-<div class="filters" id="stockPeriods">
-<button class="chip active" onclick="stockPeriod(30,this)">30天</button>
-<button class="chip" onclick="stockPeriod(60,this)">60天</button>
-<button class="chip" onclick="stockPeriod(180,this)">180天</button>
-</div>
-<button class="btn" id="stockRun" onclick="loadStocks()">重新計算排行榜</button>
-<div class="progress"><div id="stockBar"></div></div>
-<div class="small" id="stockProgress">等待開始</div>
-</div>
-<div class="cards">
-<div class="card"><div class="label">最高漲幅</div><div class="value gold" id="stockTop">--</div><div class="sub" id="stockTopName">--</div></div>
-<div class="card"><div class="label">Top 10平均漲幅</div><div class="value green" id="stockAvg">--</div></div>
-<div class="card"><div class="label">年化平均波動率</div><div class="value gold" id="stockVol">--</div></div>
-<div class="card"><div class="label">有效標的數</div><div class="value cyan" id="stockCount">0</div></div>
-</div>
-<div class="panel">
-<div class="head"><strong>美股代幣漲幅排行榜 Top 10</strong></div>
-<div class="table-wrap">
-<table>
-<thead><tr>
-<th>排名</th><th>標的</th><th>現價</th>
-<th>漲幅</th><th>年化波動</th><th>最大回撤</th><th>成交額</th>
-</tr></thead>
-<tbody id="stockTable"><tr><td colspan="7" class="empty">等待計算</td></tr></tbody>
-</table>
-</div>
-</div>
+<!-- 第二頁：漲幅排行 -->
+<section class="page" id="ranking">
+
+  <div class="card">
+    <h2>◈ 派網 24H 漲幅排行榜</h2>
+    <div class="grid2">
+      <div class="metric">
+        <div class="label">市場交易對數</div>
+        <div class="value cyan" id="rankTotal">--</div>
+      </div>
+      <div class="metric">
+        <div class="label">排行資料</div>
+        <div class="value green" id="rankSource">即時行情</div>
+      </div>
+    </div>
+    <div class="field" style="margin-top:13px">
+      <select id="rankDirection">
+        <option value="up">漲幅 TOP 10</option>
+        <option value="down">跌幅 TOP 10</option>
+      </select>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th>排名</th>
+            <th>交易對</th>
+            <th>最新價格</th>
+            <th>24H漲跌</th>
+            <th>24H高低</th>
+          </tr>
+        </thead>
+        <tbody id="rankTable">
+          <tr><td colspan="5">等待資料...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>▤ 歷史漲幅分析</h2>
+    <div class="notice">
+      歷史排行會先選取 24H 成交活躍及漲幅較大的候選交易對，再逐一取得派網日 K 線。這是候選樣本排行，不代表全市場所有幣種的歷史完整排名。
+    </div>
+    <div class="grid2">
+      <div class="field">
+        <label>歷史期間</label>
+        <select id="historyDays">
+          <option value="30">30 天</option>
+          <option value="60">60 天</option>
+          <option value="180">180 天</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>候選數量</label>
+        <select id="historyCandidates">
+          <option value="10">10 個</option>
+          <option value="15" selected>15 個</option>
+          <option value="20">20 個</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn" id="historyRankBtn">載入真實歷史漲幅排行</button>
+    <div class="progress"><div id="rankProgress"></div></div>
+    <div class="small muted" id="rankProgressText">尚未載入歷史資料</div>
+    <div class="errorbox" id="rankError"></div>
+    <div class="tablewrap" style="margin-top:12px">
+      <table>
+        <thead>
+          <tr>
+            <th>排名</th>
+            <th>交易對</th>
+            <th>起始價格</th>
+            <th>最新價格</th>
+            <th>期間漲幅</th>
+          </tr>
+        </thead>
+        <tbody id="historyRankTable">
+          <tr><td colspan="5">請按上方按鈕載入歷史排行</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>單一幣種歷史價格</h2>
+    <div class="field">
+      <label>交易對</label>
+      <select id="historySymbol">
+        <option value="BTC_USDT">BTC_USDT</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>查詢天數</label>
+      <select id="singleHistoryDays">
+        <option value="30">30 天</option>
+        <option value="60">60 天</option>
+        <option value="180">180 天</option>
+      </select>
+    </div>
+    <button class="btn secondary" id="singleHistoryBtn">查詢歷史 K 線</button>
+    <div id="singleHistoryResult" class="small muted" style="margin-top:12px">尚未查詢</div>
+  </div>
+
 </section>
 
-<!-- 第三頁 -->
-<section id="strategy" class="hidden">
-<div class="info">
-V2.1 採用歷史 OHLC 日線逐格模擬。以起始價格建立固定幾何網格，初始本金各配置 50% USDT 與標的資產。逐日依照 K 線高低價路徑模擬買賣，扣除雙邊手續費，計算期末持倉與資產淨值。<br>
-注意：日線 OHLC 無法還原真實逐筆成交順序，因此這是情境回測，不是派網機器人歷史成交紀錄。
-</div>
+<!-- 第三頁：策略比較 -->
+<section class="page" id="strategy">
 
-<div class="panel">
-<div class="head"><strong>回測參數</strong></div>
-<div class="fieldgrid">
-<div class="field">
-<label>回測週期</label>
-<select id="days">
-<option value="30">最近30天</option>
-<option value="60">最近60天</option>
-<option value="90">最近90天</option>
-<option value="180" selected>最近180天</option>
-</select>
-</div>
-<div class="field">
-<label>比較標的數</label>
-<select id="limit">
-<option>5</option><option selected>10</option>
-<option>20</option><option>30</option>
-</select>
-</div>
-<div class="field">
-<label>網格上下範圍 (%)</label>
-<input id="gridRange" type="number" value="15" min="2" max="50">
-</div>
-<div class="field">
-<label>初始資產配置 (%)</label>
-<input id="initialRatio" type="number" value="50" min="10" max="90">
-</div>
-</div>
-<div class="filters" id="strategyTypes" style="margin-top:13px">
-<button class="chip active" onclick="strategyCategory('major',this)">主流幣</button>
-<button class="chip" onclick="strategyCategory('stock',this)">美股代幣</button>
-<button class="chip" onclick="strategyCategory('all',this)">全部</button>
-</div>
-<button class="btn" id="runBacktest" onclick="runBacktest()">▶ 開始逐日網格回測</button>
-<div class="progress"><div id="backBar"></div></div>
-<div class="small" id="backProgress">等待開始</div>
-</div>
+  <div class="card">
+    <h2>◈ 歷史策略回測中心</h2>
+    <div class="notice">
+      回測使用派網真實日 K 線 OHLC 資料。日 K 無法知道一天內價格先後順序，因此使用簡化路徑假設：上漲日 O→L→H→C，下跌日 O→H→L→C。結果僅供策略研究，不等於實際派網機器人撮合。
+    </div>
+    <div class="grid2">
+      <div class="field">
+        <label>回測交易對</label>
+        <select id="backtestSymbol">
+          <option value="BTC_USDT">BTC_USDT</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>回測期間</label>
+        <select id="backtestDays">
+          <option value="30">30 天</option>
+          <option value="60">60 天</option>
+          <option value="90">90 天</option>
+          <option value="180" selected>180 天</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>本金 USDT</label>
+        <input id="backtestCapital" type="number" value="10000" min="10">
+      </div>
+      <div class="field">
+        <label>網格數量</label>
+        <input id="backtestGrids" type="number" value="30" min="2" max="200">
+      </div>
+      <div class="field">
+        <label>上界 %</label>
+        <input id="backtestUpper" type="number" value="15" min="1" max="90">
+      </div>
+      <div class="field">
+        <label>下界 %</label>
+        <input id="backtestLower" type="number" value="15" min="1" max="90">
+      </div>
+      <div class="field">
+        <label>單邊手續費 %</label>
+        <input id="backtestFee" type="number" value="0.05" min="0" max="2" step="0.01">
+      </div>
+    </div>
+    <button class="btn greenbtn" id="runBacktestBtn">▶ 開始三種策略回測</button>
+    <div class="progress"><div id="backtestProgress"></div></div>
+    <div class="small muted" id="backtestStatus">等待開始</div>
+    <div class="errorbox" id="backtestError"></div>
+  </div>
 
-<div class="cards">
-<div class="card"><div class="label">最佳標的</div><div class="value gold" id="bestName">--</div><div class="sub">依模擬淨利排名</div></div>
-<div class="card"><div class="label">模擬淨利</div><div class="value green" id="bestProfit">--</div><div class="sub">USDT</div></div>
-<div class="card"><div class="label">淨收益率</div><div class="value cyan" id="bestReturn">--</div></div>
-<div class="card"><div class="label">最大資產回撤</div><div class="value red" id="bestDD">--</div></div>
-</div>
+  <div class="card">
+    <h2>策略績效比較</h2>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th>策略</th>
+            <th>期末資產</th>
+            <th>總收益</th>
+            <th>報酬率</th>
+            <th>最大回撤</th>
+            <th>交易筆數</th>
+          </tr>
+        </thead>
+        <tbody id="backtestTable">
+          <tr><td colspan="6">尚未執行回測</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-<div class="panel">
-<div class="head"><strong>逐日網格回測排行榜</strong><span class="small">淨利由高至低</span></div>
-<div class="table-wrap">
-<table>
-<thead><tr>
-<th>排名</th><th>標的</th><th>期末價格</th>
-<th>買賣次數</th><th>已實現利潤</th>
-<th>未實現盈虧</th><th>淨利</th>
-<th>收益率</th><th>最大回撤</th>
-</tr></thead>
-<tbody id="backTable"><tr><td colspan="9" class="empty">等待回測</td></tr></tbody>
-</table>
-</div>
-</div>
+  <div class="card">
+    <h2>回測詳細資料</h2>
+    <div class="grid2">
+      <div class="metric">
+        <div class="label">起始價格</div>
+        <div class="value cyan" id="btStart">--</div>
+      </div>
+      <div class="metric">
+        <div class="label">結束價格</div>
+        <div class="value cyan" id="btEnd">--</div>
+      </div>
+      <div class="metric">
+        <div class="label">回測 K 線數</div>
+        <div class="value" id="btBars">--</div>
+      </div>
+      <div class="metric">
+        <div class="label">買入持有報酬</div>
+        <div class="value" id="btHold">--</div>
+      </div>
+    </div>
+    <div id="strategyDetails" style="margin-top:12px"></div>
+  </div>
 
-<div class="title">最佳標的資產明細</div>
-<div class="panel" id="bestDetail"><div class="empty">完成回測後顯示詳細資產</div></div>
+  <div class="card">
+    <h2>資產曲線比較</h2>
+    <div id="equityBars" class="muted small">執行回測後顯示策略資產比較。</div>
+  </div>
 
-<div class="title">回測交易紀錄</div>
-<div class="panel">
-<div class="head"><strong>最近交易紀錄</strong><span class="small">最多顯示最近50筆</span></div>
-<div class="table-wrap">
-<table>
-<thead><tr>
-<th>日期</th><th>方向</th><th>價格</th>
-<th>數量</th><th>交易金額</th><th>手續費</th>
-</tr></thead>
-<tbody id="tradeTable"><tr><td colspan="6" class="empty">等待回測</td></tr></tbody>
-</table>
-</div>
-</div>
+  <div class="card">
+    <h2>回測模型說明</h2>
+    <div class="small muted" style="line-height:1.9">
+      ① 等差網格：價格區間採固定價差分格。<br>
+      ② 等比網格：價格區間採固定比例分格。<br>
+      ③ 買入持有：期初投入全部本金買入，期末按收盤價估值。<br>
+      ④ 網格策略：期初一半本金持有幣，一半持有 USDT。<br>
+      ⑤ 買賣均計入設定手續費。<br>
+      ⑥ 未納入滑價、資金費率、交易所最小下單量及實際成交排隊。
+    </div>
+  </div>
+
 </section>
 
-<footer>
-QUANTGRID V2.1 PRO · PIONEX PUBLIC MARKET DATA<br>
-所有回測為歷史模擬，非實際成交紀錄，亦不保證未來收益。
-</footer>
+<div class="bottomnote">
+  QUANTGRID V2.0 · PIONEX MARKET DATA<br>
+  本工具僅供行情分析及策略模擬，不構成投資建議。
+</div>
 </main>
 
 <script>
 "use strict";
 
-/* ===============================
-   基本設定
+/* ==============================
+   QUANTGRID V2.0
+   Pionex Cloudflare Worker
 ================================ */
 
-const API="https://api.pionex.com/api/v1";
-const $=id=>document.getElementById(id);
+const API_BASE = "https://icy-king-1c29.r0925688881.workers.dev";
 
-let markets=[];
-let symbols=[];
-let selected=null;
-let cat="all";
-let sorting="volume";
-let stockDays=30;
-let strategyCat="major";
-let stockData=[];
-let backData=[];
-let running=false;
+let allTickers = [];
+let allSymbols = [];
+let tickerMap = {};
+let selectedCoin = "BTC_USDT";
+let lastHistory = [];
+let isLoadingMarket = false;
 
-const STOCK_NAMES={
- AAPL:"Apple",TSLA:"Tesla",NVDA:"NVIDIA",
- MSFT:"Microsoft",AMZN:"Amazon",GOOGL:"Alphabet",
- META:"Meta",COIN:"Coinbase",MSTR:"MicroStrategy",
- AMD:"AMD",HOOD:"Robinhood",CRCL:"Circle",
- INTC:"Intel",PLTR:"Palantir",NFLX:"Netflix",
- ORCL:"Oracle",AVGO:"Broadcom",SMCI:"Super Micro",
- QQQ:"Nasdaq ETF",SPY:"S&P 500 ETF",
- SPCX:"SpaceX"
-};
+const $ = id => document.getElementById(id);
 
-const STOCK_CODES=Object.keys(STOCK_NAMES);
-const MAJOR=["BTC","ETH","BNB"];
-
-function num(id,def){
- const v=Number($(id).value);
- return Number.isFinite(v)?v:def;
+function number(v){
+  const n = Number(v);
+  return Number.isFinite(n) ? n : 0;
 }
-function money(){return Math.max(100,num("capital",10000))}
-function fee(){return Math.max(0,num("fee",.05))/100}
-function grids(){return Math.max(2,Math.floor(num("grids",30)))}
-function fmt(v,d=2){
- if(!Number.isFinite(Number(v)))return "--";
- return Number(v).toLocaleString("en-US",{
-  minimumFractionDigits:d,maximumFractionDigits:d
- });
+
+function money(v,d=4){
+  if(!Number.isFinite(v)) return "--";
+  if(Math.abs(v)>=1000) return v.toLocaleString("en-US",{maximumFractionDigits:2});
+  if(Math.abs(v)>=1) return v.toLocaleString("en-US",{maximumFractionDigits:d});
+  return v.toPrecision(5);
 }
+
 function percent(v){
- return (v>=0?"+":"")+fmt(v,2)+"%";
+  if(!Number.isFinite(v)) return "--";
+  return (v>=0?"+":"")+v.toFixed(2)+"%";
 }
-function base(s){return String(s||"").split("_")[0].toUpperCase()}
-function isMajor(s){return MAJOR.includes(base(s))}
-function isStock(s){return STOCK_CODES.includes(base(s))}
-function kind(s){
- return isMajor(s)?"major":isStock(s)?"stock":"other";
+
+function safeText(v){
+  return String(v ?? "").replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
 }
-function name(s){return STOCK_NAMES[base(s)]||base(s)}
-function escapeHTML(s){
- return String(s??"").replace(/[&<>"']/g,c=>({
- "&":"&amp;","<":"&lt;",">":"&gt;",
- '"':"&quot;","'":"&#39;"
- }[c]));
+
+function setStatus(type,msg){
+  $("statusDot").className="dot "+(type||"");
+  $("statusText").textContent=msg;
 }
-function status(s,type=""){
- $("status").textContent=s;
- $("dot").className="dot "+type;
+
+function showError(id,msg){
+  const el=$(id);
+  el.style.display="block";
+  el.textContent=msg;
+}
+
+function hideError(id){
+  const el=$(id);
+  el.style.display="none";
+  el.textContent="";
 }
 
 async function api(path,timeout=18000){
- const controller=new AbortController();
- const timer=setTimeout(()=>controller.abort(),timeout);
- try{
-  const r=await fetch(API+path,{
-   cache:"no-store",signal:controller.signal
+  const controller=new AbortController();
+  const timer=setTimeout(()=>controller.abort(),timeout);
+  try{
+    const response=await fetch(API_BASE+path,{
+      method:"GET",
+      cache:"no-store",
+      signal:controller.signal,
+      headers:{"Accept":"application/json"}
+    });
+    if(!response.ok){
+      throw new Error("Worker HTTP "+response.status);
+    }
+    const data=await response.json();
+    if(data.success===false){
+      throw new Error(data.error||"API 回傳失敗");
+    }
+    return data;
+  }catch(e){
+    if(e.name==="AbortError"){
+      throw new Error("連線逾時，請稍後重試");
+    }
+    throw e;
+  }finally{
+    clearTimeout(timer);
+  }
+}
+
+function getChange(t){
+  const open=number(t.open);
+  const close=number(t.close);
+  if(open<=0) return 0;
+  return (close-open)/open*100;
+}
+
+function getVolume(t){
+  return number(t.amount || t.volume);
+}
+
+function getPrice(t){
+  return number(t.close);
+}
+
+function isUsdtPair(symbol){
+  return typeof symbol==="string" && symbol.endsWith("_USDT");
+}
+
+function getTickerSymbol(t){
+  return String(t.symbol||"").toUpperCase();
+}
+
+function populateSelects(){
+  const symbols=allTickers
+    .map(getTickerSymbol)
+    .filter(isUsdtPair);
+
+  const preferred=["BTC_USDT","ETH_USDT","BNB_USDT","SOL_USDT"];
+  symbols.sort((a,b)=>{
+    const ai=preferred.indexOf(a);
+    const bi=preferred.indexOf(b);
+    if(ai>=0 || bi>=0){
+      if(ai<0)return 1;
+      if(bi<0)return -1;
+      return ai-bi;
+    }
+    return a.localeCompare(b);
   });
-  if(!r.ok)throw Error("HTTP "+r.status);
-  const d=await r.json();
-  if(d.result===false)throw Error("派網 API 回傳失敗");
-  return d;
- }finally{
-  clearTimeout(timer);
- }
+
+  const unique=[...new Set(symbols)];
+  const targets=["selectedSymbol","historySymbol","backtestSymbol"];
+  targets.forEach(id=>{
+    const el=$(id);
+    const old=el.value;
+    el.innerHTML="";
+    unique.forEach(symbol=>{
+      const option=document.createElement("option");
+      option.value=symbol;
+      option.textContent=symbol;
+      el.appendChild(option);
+    });
+    el.value=unique.includes(old)?old:
+      unique.includes(selectedCoin)?selectedCoin:
+      (unique[0]||"BTC_USDT");
+  });
+
+  if(unique.length) selectedCoin=unique.includes(selectedCoin)?selectedCoin:unique[0];
 }
 
-async function getSymbols(){
- const d=await api("/common/symbols?type=SPOT");
- return d.data?.symbols||[];
-}
-async function getTickers(){
- const d=await api("/market/tickers?type=SPOT");
- return d.data?.tickers||[];
-}
-function normalize(t){
- const p=Number(t.close);
- if(!Number.isFinite(p)||p<=0)return null;
- const o=Number(t.open);
- return {
-  symbol:t.symbol,price:p,
-  open:o>0?o:p,
-  high:Number(t.high)||p,
-  low:Number(t.low)||p,
-  amount:Number(t.amount)||0,
-  volume:Number(t.volume)||0,
-  change:o>0?(p/o-1)*100:0
- };
-}
+async function loadMarket(){
+  if(isLoadingMarket)return;
+  isLoadingMarket=true;
+  $("refreshBtn").disabled=true;
+  $("refreshBtn").textContent="正在載入...";
+  hideError("marketError");
+  setStatus("","正在取得派網市場資料...");
 
-/* ===============================
-   即時行情
-================================ */
+  try{
+    const [tickerResult,symbolResult]=await Promise.all([
+      api("/api/tickers"),
+      api("/api/symbols")
+    ]);
 
-async function refreshMarket(){
- if(running)return;
- running=true;
- $("refresh").disabled=true;
- $("refresh").textContent="正在取得派網行情...";
- status("正在連線派網...");
- try{
-  const [s,t]=await Promise.all([getSymbols(),getTickers()]);
-  symbols=s.filter(x=>x.type==="SPOT"&&x.enable!==false);
-  const allowed=new Set(symbols.map(x=>x.symbol));
-  markets=t.map(normalize).filter(x=>
-   x&&x.symbol.endsWith("_USDT")&&
-   (!allowed.size||allowed.has(x.symbol))
-  );
-  $("pairCount").textContent=markets.length;
-  $("updated").textContent=new Date().toLocaleTimeString("zh-TW");
-  status("派網行情連線成功","ok");
-  renderMarket();
-  updateMoney();
-  if(selected){
-   selected=markets.find(x=>x.symbol===selected.symbol)||selected;
-   renderSelected();
+    allTickers=Array.isArray(tickerResult.data)?tickerResult.data:[];
+    allSymbols=Array.isArray(symbolResult.data)?symbolResult.data:[];
+
+    if(!allTickers.length){
+      throw new Error("派網沒有回傳行情資料");
+    }
+
+    tickerMap={};
+    allTickers.forEach(t=>{
+      const symbol=getTickerSymbol(t);
+      if(symbol)tickerMap[symbol]=t;
+    });
+
+    const usdt=allTickers.filter(t=>isUsdtPair(getTickerSymbol(t)));
+    const up=usdt.filter(t=>getChange(t)>0).length;
+    const down=usdt.filter(t=>getChange(t)<0).length;
+
+    $("totalPairs").textContent=usdt.length;
+    $("upCount").textContent=up;
+    $("downCount").textContent=down;
+    $("rankTotal").textContent=usdt.length;
+
+    populateSelects();
+    renderMarket();
+    renderRanking();
+    updateGridCalc();
+
+    $("lastUpdate").textContent=new Date().toLocaleTimeString("zh-TW");
+    setStatus("online","派網行情連線成功");
+  }catch(e){
+    setStatus("error","行情連線失敗");
+    showError("marketError",
+      "無法取得行情資料："+e.message+
+      "。請確認 Worker 已部署，並重新載入。");
+  }finally{
+    isLoadingMarket=false;
+    $("refreshBtn").disabled=false;
+    $("refreshBtn").textContent="↻ 重新載入派網行情";
   }
- }catch(e){
-  console.error(e);
-  status("行情連線失敗："+e.message,"bad");
-  if(!markets.length){
-   $("marketTable").innerHTML=
-    `<tr><td colspan="7" class="empty">
-    無法取得派網行情。請檢查網路或稍後重試。<br>
-    本系統不會以預設假價格代替。
-    </td></tr>`;
-  }
- }finally{
-  running=false;
-  $("refresh").disabled=false;
-  $("refresh").textContent="↻ 更新派網真實行情";
- }
-}
-
-function updateMoney(){
- $("twd").textContent="NT$ "+fmt(money()*num("rate",32.5),0);
-}
-
-function category(v,btn){
- cat=v;
- btn.parentElement.querySelectorAll(".chip").forEach(x=>x.classList.remove("active"));
- btn.classList.add("active");
- renderMarket();
-}
-function sortBy(v,btn){
- sorting=v;
- btn.parentElement.querySelectorAll(".chip").forEach(x=>x.classList.remove("active"));
- btn.classList.add("active");
- renderMarket();
-}
-
-function suggestedRange(t){
- const r=Math.max(2,num("gridRange",15))/100;
- return {low:t.price*(1-r),high:t.price*(1+r)};
 }
 
 function renderMarket(){
- let arr=markets.filter(t=>cat==="all"||kind(t.symbol)===cat);
- if(sorting==="volume")arr.sort((a,b)=>b.amount-a.amount);
- if(sorting==="change")arr.sort((a,b)=>b.change-a.change);
- if(sorting==="range")arr.sort((a,b)=>
-  (b.high-b.low)/b.price-(a.high-a.low)/a.price
- );
- $("visible").textContent=arr.length;
- if(!arr.length){
-  $("marketTable").innerHTML='<tr><td colspan="7" class="empty">沒有符合條件的交易對</td></tr>';
-  return;
- }
- $("marketTable").innerHTML=arr.slice(0,200).map(t=>`
- <tr>
- <td><div class="symbol">${escapeHTML(base(t.symbol))}</div><div class="pair">${escapeHTML(t.symbol)}</div></td>
- <td>${fmt(t.price,6)}</td>
- <td class="${t.change>=0?"green":"red"}">${percent(t.change)}</td>
- <td>${fmt(t.high,6)}</td>
- <td>${fmt(t.low,6)}</td>
- <td>${fmt(t.amount,0)}</td>
- <td><button class="chip" onclick="choose('${escapeHTML(t.symbol)}')">分析</button></td>
- </tr>`).join("");
-}
-
-function choose(s){
- selected=markets.find(t=>t.symbol===s);
- renderSelected();
- $("detail").scrollIntoView({behavior:"smooth",block:"start"});
-}
-
-function renderSelected(){
- const t=selected;
- if(!t)return;
- const r=suggestedRange(t);
- const n=grids();
- const step=(r.high/r.low)**(1/n)-1;
- const per=money()/n;
- const gross=per*step;
- const net=gross-per*fee()*2;
- $("detail").innerHTML=`
- <div class="head">
- <strong class="cyan">${escapeHTML(t.symbol)}</strong>
- <span class="tag">派網現貨行情</span>
- </div>
- <div class="cards">
- <div class="card"><div class="label">目前價格</div><div class="value cyan">${fmt(t.price,6)}</div></div>
- <div class="card"><div class="label">網格間距</div><div class="value">${fmt(step*100,3)}%</div></div>
- <div class="card"><div class="label">單格配置</div><div class="value">${fmt(per,2)} U</div></div>
- <div class="card"><div class="label">理論單格淨利</div><div class="value green">${fmt(net,4)} U</div></div>
- </div>
- <div class="info">
- 建議下限：${fmt(r.low,6)}<br>
- 建議上限：${fmt(r.high,6)}<br>
- 24H 振幅：${fmt((t.high-t.low)/t.price*100,2)}%<br>
- 單次買賣手續費估算：${fmt(per*fee()*2,4)} U<br>
- 注意：單格利潤是理論估算，非實際成交收益。
- </div>
- `;
-}
-
-/* ===============================
-   K 線
-================================ */
-
-function normalizeK(k){
- let x;
- if(Array.isArray(k)){
-  x={time:Number(k[0]),open:Number(k[1]),high:Number(k[2]),
-  low:Number(k[3]),close:Number(k[4]),volume:Number(k[5])};
- }else{
-  x={time:Number(k.time),open:Number(k.open),high:Number(k.high),
-  low:Number(k.low),close:Number(k.close),volume:Number(k.volume)};
- }
- if(x.time<1e12)x.time*=1000;
- return x;
-}
-
-async function candles(symbol,days){
- const d=await api("/market/klines?symbol="+encodeURIComponent(symbol)+
- "&interval=1D&limit="+Math.min(500,days+1));
- return (d.data?.klines||[]).map(normalizeK)
- .filter(k=>k.close>0&&k.open>0&&k.high>0&&k.low>0)
- .sort((a,b)=>a.time-b.time);
-}
-
-function statistics(arr){
- if(arr.length<2)return null;
- const first=arr[0].close,last=arr[arr.length-1].close;
- const rets=[];
- let peak=arr[0].close,dd=0;
- for(let i=1;i<arr.length;i++){
-  const p=arr[i].close;
-  rets.push(p/arr[i-1].close-1);
-  peak=Math.max(peak,p);
-  dd=Math.min(dd,(p/peak-1)*100);
- }
- const mean=rets.reduce((a,b)=>a+b,0)/rets.length;
- const variance=rets.reduce((a,b)=>a+(b-mean)**2,0)/rets.length;
- return {
-  gain:(last/first-1)*100,
-  volatility:Math.sqrt(variance)*Math.sqrt(365)*100,
-  drawdown:dd
- };
-}
-
-async function pool(items,limit,fn,progress){
- const out=new Array(items.length);
- let next=0,done=0;
- async function worker(){
-  while(true){
-   const i=next++;
-   if(i>=items.length)return;
-   try{out[i]=await fn(items[i],i)}catch(e){out[i]=null}
-   done++;
-   if(progress)progress(done,items.length);
-  }
- }
- await Promise.all(Array.from({length:Math.min(limit,items.length)},worker));
- return out;
-}
-
-/* ===============================
-   美股排行
-================================ */
-
-function stockPeriod(days,btn){
- stockDays=days;
- btn.parentElement.querySelectorAll(".chip").forEach(x=>x.classList.remove("active"));
- btn.classList.add("active");
- loadStocks();
-}
-
-async function loadStocks(){
- if(!markets.length){alert("請先更新派網行情");return}
- $("stockRun").disabled=true;
- $("stockRun").textContent="正在分析...";
- $("stockTable").innerHTML='<tr><td colspan="7" class="empty">讀取歷史日線中...</td></tr>';
- const list=markets.filter(t=>isStock(t.symbol));
- const out=await pool(list,3,async t=>{
-  const c=await candles(t.symbol,stockDays);
-  if(c.length<Math.min(stockDays,20))return null;
-  const s=statistics(c);
-  return s?{...t,...s}:null;
- },(done,total)=>{
-  $("stockBar").style.width=(done/total*100)+"%";
-  $("stockProgress").textContent=`完成 ${done}/${total}`;
- });
- stockData=out.filter(Boolean).sort((a,b)=>b.gain-a.gain).slice(0,10);
- renderStocks();
- $("stockRun").disabled=false;
- $("stockRun").textContent="重新計算排行榜";
-}
-
-function renderStocks(){
- const a=stockData;
- $("stockCount").textContent=a.length;
- if(!a.length){
-  $("stockTable").innerHTML='<tr><td colspan="7" class="empty">沒有足夠的歷史資料</td></tr>';
-  return;
- }
- const avg=a.reduce((s,x)=>s+x.gain,0)/a.length;
- const vol=a.reduce((s,x)=>s+x.volatility,0)/a.length;
- $("stockTop").textContent=percent(a[0].gain);
- $("stockTopName").textContent=name(a[0].symbol);
- $("stockAvg").textContent=percent(avg);
- $("stockVol").textContent=fmt(vol,2)+"%";
- $("stockTable").innerHTML=a.map((x,i)=>`
- <tr>
- <td>${i+1}</td>
- <td><b>${escapeHTML(name(x.symbol))}</b><div class="pair">${escapeHTML(x.symbol)}</div></td>
- <td>${fmt(x.price,5)}</td>
- <td class="${x.gain>=0?"green":"red"}">${percent(x.gain)}</td>
- <td class="gold">${fmt(x.volatility,2)}%</td>
- <td class="red">${fmt(x.drawdown,2)}%</td>
- <td>${fmt(x.amount,0)}</td>
- </tr>`).join("");
-}
-
-/* ===============================
-   V2.1 真正資產帳本模擬
-================================ */
-
-/*
- 初始本金：
- cash = 本金 * USDT比例
- base = 本金 * 標的比例 / 初始價格
-
- 每格基準數量：
- 初始標的資產 / 網格數
-
- 買進：
- 扣除USDT及手續費，增加持幣和成本基礎。
-
- 賣出：
- 減少持幣，增加USDT，計算已實現利潤。
-
- 期末：
- 淨利 = 已實現利潤 + 未實現盈虧
-       = 期末資產 - 初始本金
-*/
-
-function simulateGrid(klines,config){
- if(klines.length<10)return null;
-
- const initial=config.capital;
- const n=config.grids;
- const feeRate=config.fee;
- const ratio=config.ratio;
- const first=klines[0].close;
-
- const lower=first*(1-config.range);
- const upper=first*(1+config.range);
-
- if(lower<=0||upper<=lower)return null;
-
- const step=(upper/lower)**(1/n);
- const levels=[];
- for(let i=0;i<=n;i++)levels.push(lower*Math.pow(step,i));
-
- const initialCash=initial*ratio;
- const initialCoinValue=initial*(1-ratio);
- const unitCoin=(initialCoinValue/first)/n;
-
- let cash=initialCash;
- let coin=initialCoinValue/first;
- let costBasis=initialCoinValue;
- let realized=0;
- let fees=0;
- let buys=0,sells=0,skipped=0;
- let peak=initial;
- let maxDD=0;
- let equityCurve=[];
- let trades=[];
-
- // 初始價位
- let lastPrice=first;
-
- function execute(level,direction,time){
-  const qty=unitCoin;
-  if(direction==="BUY"){
-   const gross=qty*level;
-   const charge=gross*feeRate;
-   const total=gross+charge;
-
-   if(cash+1e-10<total){skipped++;return}
-   cash-=total;
-   coin+=qty;
-   costBasis+=total;
-   fees+=charge;
-   buys++;
-   trades.push({
-    time,direction,price:level,qty,
-    amount:gross,fee:charge
-   });
-  }else{
-   if(coin+1e-10<qty){skipped++;return}
-   const gross=qty*level;
-   const charge=gross*feeRate;
-   const proceeds=gross-charge;
-   const avgCost=coin>0?costBasis/coin:0;
-   const removed=avgCost*qty;
-
-   coin-=qty;
-   costBasis-=removed;
-   if(coin<1e-10){coin=0;costBasis=0}
-   cash+=proceeds;
-   realized+=proceeds-removed;
-   fees+=charge;
-   sells++;
-   trades.push({
-    time,direction,price:level,qty,
-    amount:gross,fee:charge
-   });
-  }
- }
-
- function move(from,to,time){
-  if(Math.abs(to-from)<1e-12)return;
-
-  if(to>from){
-   // 上漲：逐格賣出
-   const crossed=levels.filter(x=>x>from+1e-12&&x<=to+1e-12);
-   crossed.sort((a,b)=>a-b);
-   crossed.forEach(level=>execute(level,"SELL",time));
-  }else{
-   // 下跌：逐格買入
-   const crossed=levels.filter(x=>x<from-1e-12&&x>=to-1e-12);
-   crossed.sort((a,b)=>b-a);
-   crossed.forEach(level=>execute(level,"BUY",time));
-  }
- }
-
- for(let i=0;i<klines.length;i++){
-  const k=klines[i];
-
-  if(i>0){
-   /*
-    日線沒有真實逐筆順序。
-    採固定情境路徑：
-    收紅：開盤→最低→最高→收盤
-    收黑：開盤→最高→最低→收盤
-   */
-   const path=k.close>=k.open?
-    [lastPrice,k.open,k.low,k.high,k.close]:
-    [lastPrice,k.open,k.high,k.low,k.close];
-
-   for(let j=1;j<path.length;j++){
-    move(path[j-1],path[j],k.time);
-   }
-  }
-
-  lastPrice=k.close;
-  const equity=cash+coin*k.close;
-  peak=Math.max(peak,equity);
-  const dd=peak>0?(equity/peak-1)*100:0;
-  maxDD=Math.min(maxDD,dd);
-  equityCurve.push({
-   time:k.time,equity,dd,price:k.close
+  const query=$("coinSearch").value.trim().toUpperCase();
+  let rows=allTickers.filter(t=>{
+    const s=getTickerSymbol(t);
+    return isUsdtPair(s) && s.includes(query);
   });
- }
 
- const finalPrice=klines[klines.length-1].close;
- const finalCoinValue=coin*finalPrice;
- const finalEquity=cash+finalCoinValue;
+  const sort=$("sortMarket").value;
+  if(sort==="volume")rows.sort((a,b)=>getVolume(b)-getVolume(a));
+  if(sort==="change")rows.sort((a,b)=>getChange(b)-getChange(a));
+  if(sort==="changeDown")rows.sort((a,b)=>getChange(a)-getChange(b));
+  if(sort==="symbol")rows.sort((a,b)=>getTickerSymbol(a).localeCompare(getTickerSymbol(b)));
 
- const unrealized=finalCoinValue-costBasis;
- const totalProfit=realized+unrealized;
- const returnPct=totalProfit/initial*100;
+  $("marketCount").textContent=rows.length+" 筆";
 
- return {
-  lower,upper,step,
-  initial,initialCash,initialCoinValue,
-  cash,coin,costBasis,
-  finalCoinValue,finalEquity,
-  realized,unrealized,totalProfit,returnPct,
-  fees,buys,sells,trades,skipped,
-  maxDD,finalPrice,
-  equityCurve,
-  days:klines.length-1,
-  tradeCount:buys+sells
- };
+  const body=$("marketTable");
+  if(!rows.length){
+    body.innerHTML='<tr><td colspan="6">沒有符合的交易對</td></tr>';
+    return;
+  }
+
+  body.innerHTML=rows.slice(0,250).map(t=>{
+    const symbol=getTickerSymbol(t);
+    const change=getChange(t);
+    const cls=change>=0?"green":"red";
+    return `<tr data-symbol="${safeText(symbol)}">
+      <td class="coin">${safeText(symbol)}</td>
+      <td>${money(getPrice(t))}</td>
+      <td class="${cls}">${percent(change)}</td>
+      <td>${money(number(t.high))}</td>
+      <td>${money(number(t.low))}</td>
+      <td>${money(getVolume(t),2)}</td>
+    </tr>`;
+  }).join("");
+
+  body.querySelectorAll("tr[data-symbol]").forEach(tr=>{
+    tr.addEventListener("click",()=>{
+      selectCoin(tr.dataset.symbol);
+    });
+  });
 }
 
-function strategyCategory(v,btn){
- strategyCat=v;
- btn.parentElement.querySelectorAll(".chip").forEach(x=>x.classList.remove("active"));
- btn.classList.add("active");
+function renderRanking(){
+  const direction=$("rankDirection").value;
+  const rows=allTickers.filter(t=>isUsdtPair(getTickerSymbol(t)));
+  rows.sort((a,b)=>direction==="up"
+    ?getChange(b)-getChange(a)
+    :getChange(a)-getChange(b));
+
+  $("rankTable").innerHTML=rows.slice(0,10).map((t,i)=>{
+    const ch=getChange(t);
+    return `<tr>
+      <td>${i+1}</td>
+      <td class="coin">${safeText(getTickerSymbol(t))}</td>
+      <td>${money(getPrice(t))}</td>
+      <td class="${ch>=0?"green":"red"}">${percent(ch)}</td>
+      <td>${money(number(t.high))} / ${money(number(t.low))}</td>
+    </tr>`;
+  }).join("")||'<tr><td colspan="5">沒有排行資料</td></tr>';
+}
+
+function selectCoin(symbol){
+  if(!tickerMap[symbol])return;
+  selectedCoin=symbol;
+  $("selectedSymbol").value=symbol;
+  $("historySymbol").value=symbol;
+  $("backtestSymbol").value=symbol;
+  updateGridCalc();
+  document.querySelector('[data-page="market"]').scrollIntoView({behavior:"smooth"});
+}
+
+function updateGridCalc(){
+  const symbol=$("selectedSymbol").value || selectedCoin;
+  const t=tickerMap[symbol];
+  const price=getPrice(t||{});
+  if(!price){
+    $("calcPrice").textContent="--";
+    return;
+  }
+
+  const grids=Math.max(2,Math.min(200,number($("gridCount").value)||30));
+  const up=Math.max(1,Math.min(90,number($("upperPct").value)||15));
+  const down=Math.max(1,Math.min(90,number($("lowerPct").value)||15));
+  const fee=Math.max(0,number($("feeRate").value))/100;
+
+  const upper=price*(1+up/100);
+  const lower=price*(1-down/100);
+  const step=(upper-lower)/grids;
+  const avg=(upper+lower)/2;
+  const gross=step/avg*100;
+  const net=(1+gross/100)*(1-fee)*(1-fee)*100-100;
+
+  $("calcPrice").textContent=money(price);
+  $("calcUpper").textContent=money(upper);
+  $("calcLower").textContent=money(lower);
+  $("calcSpread").textContent=money(step);
+  $("calcGross").textContent=percent(gross);
+  $("calcNet").textContent=percent(net);
+}
+
+async function loadHistoricalRanking(){
+  hideError("rankError");
+  const days=Number($("historyDays").value);
+  const limit=Number($("historyCandidates").value);
+  const btn=$("historyRankBtn");
+  btn.disabled=true;
+  btn.textContent="正在查詢歷史資料...";
+  $("rankProgress").style.width="0%";
+  $("rankProgressText").textContent="準備載入候選交易對...";
+
+  try{
+    const candidates=allTickers
+      .filter(t=>isUsdtPair(getTickerSymbol(t)) && getPrice(t)>0)
+      .sort((a,b)=>getVolume(b)-getVolume(a))
+      .slice(0,Math.max(limit*2,20));
+
+    const results=[];
+    let completed=0;
+    const selected=candidates.slice(0,limit);
+
+    for(let i=0;i<selected.length;i+=3){
+      const group=selected.slice(i,i+3);
+      const batch=await Promise.all(group.map(async t=>{
+        const symbol=getTickerSymbol(t);
+        try{
+          const data=await getKlines(symbol,days);
+          const list=data.filter(k=>number(k.close)>0);
+          if(list.length<2)return null;
+          const first=list[0];
+          const last=list[list.length-1];
+          const start=number(first.open)||number(first.close);
+          const end=number(last.close);
+          if(start<=0)return null;
+          return {
+            symbol,start,end,
+            change:(end/start-1)*100,
+            bars:list.length
+          };
+        }catch(e){
+          return null;
+        }
+      }));
+      results.push(...batch.filter(Boolean));
+      completed+=group.length;
+      const pct=Math.min(100,completed/selected.length*100);
+      $("rankProgress").style.width=pct+"%";
+      $("rankProgressText").textContent=
+        "已完成 "+completed+" / "+selected.length+" 個交易對";
+    }
+
+    results.sort((a,b)=>b.change-a.change);
+    $("historyRankTable").innerHTML=results.slice(0,10).map((r,i)=>`
+      <tr>
+        <td>${i+1}</td>
+        <td class="coin">${safeText(r.symbol)}</td>
+        <td>${money(r.start)}</td>
+        <td>${money(r.end)}</td>
+        <td class="${r.change>=0?"green":"red"}">${percent(r.change)}</td>
+      </tr>
+    `).join("")||'<tr><td colspan="5">沒有取得足夠歷史資料</td></tr>';
+
+    if(!results.length){
+      throw new Error("候選交易對均未取得足夠日 K 資料");
+    }
+    $("rankProgressText").textContent=
+      "完成：成功取得 "+results.length+" 個交易對歷史資料。";
+  }catch(e){
+    showError("rankError","歷史排行載入失敗："+e.message);
+  }finally{
+    btn.disabled=false;
+    btn.textContent="載入真實歷史漲幅排行";
+  }
+}
+
+async function getKlines(symbol,days){
+  const safeDays=Math.max(1,Math.min(499,Number(days)||30));
+  const data=await api(
+    "/api/klines?symbol="+encodeURIComponent(symbol)+
+    "&days="+safeDays,
+    25000
+  );
+  const list=Array.isArray(data.data)?data.data:[];
+  return list.slice().sort((a,b)=>number(a.time)-number(b.time));
+}
+
+async function loadSingleHistory(){
+  const symbol=$("historySymbol").value;
+  const days=Number($("singleHistoryDays").value);
+  const el=$("singleHistoryResult");
+  el.textContent="正在取得歷史 K 線...";
+  try{
+    const list=await getKlines(symbol,days);
+    if(list.length<2)throw new Error("歷史 K 線數量不足");
+    lastHistory=list;
+    const first=list[0];
+    const last=list[list.length-1];
+    const start=number(first.close);
+    const end=number(last.close);
+    const change=(end/start-1)*100;
+    el.innerHTML=`
+      <div class="grid2">
+        <div class="metric"><div class="label">起始收盤價</div><div class="value">${money(start)}</div></div>
+        <div class="metric"><div class="label">最新收盤價</div><div class="value">${money(end)}</div></div>
+        <div class="metric"><div class="label">歷史 K 線數</div><div class="value">${list.length}</div></div>
+        <div class="metric"><div class="label">期間漲跌</div><div class="value ${change>=0?"green":"red"}">${percent(change)}</div></div>
+      </div>
+      <div class="small muted" style="margin-top:10px">資料來源：派網日 K 線。期間以取得的第一根與最後一根收盤價計算。</div>
+    `;
+  }catch(e){
+    el.textContent="查詢失敗："+e.message;
+  }
+}
+
+/* ==============================
+   歷史策略回測
+================================ */
+
+function makeLevels(low,high,count,mode){
+  const levels=[];
+  for(let i=0;i<=count;i++){
+    let p;
+    if(mode==="arithmetic"){
+      p=low+(high-low)*i/count;
+    }else{
+      p=low*Math.pow(high/low,i/count);
+    }
+    levels.push(p);
+  }
+  return levels;
+}
+
+function maxDrawdown(curve){
+  let peak=-Infinity;
+  let max=0;
+  curve.forEach(v=>{
+    if(v>peak)peak=v;
+    if(peak>0){
+      const dd=(peak-v)/peak*100;
+      if(dd>max)max=dd;
+    }
+  });
+  return max;
+}
+
+function simulateGrid(klines,config,mode){
+  const {
+    capital,grids,upper,lower,fee
+  }=config;
+
+  const start=number(klines[0].open)||number(klines[0].close);
+  const end=number(klines[klines.length-1].close);
+
+  const low=start*(1-lower/100);
+  const high=start*(1+upper/100);
+  const levels=makeLevels(low,high,grids,mode);
+
+  let cash=capital/2;
+  let coin=(capital/2)/start;
+  let trades=0;
+  let feesPaid=0;
+  const unit=(capital/2)/(grids*start);
+  const curve=[];
+
+  function buy(price){
+    if(cash<=0)return;
+    const qty=Math.min(unit,cash/(price*(1+fee)));
+    if(qty<=0)return;
+    const cost=qty*price;
+    const f=cost*fee;
+    cash-=cost+f;
+    coin+=qty;
+    feesPaid+=f;
+    trades++;
+  }
+
+  function sell(price){
+    if(coin<=0)return;
+    const qty=Math.min(unit,coin);
+    if(qty<=0)return;
+    const value=qty*price;
+    const f=value*fee;
+    cash+=value-f;
+    coin-=qty;
+    feesPaid+=f;
+    trades++;
+  }
+
+  function move(from,to){
+    if(to===from)return;
+    if(to>from){
+      for(let i=1;i<levels.length-1;i++){
+        const p=levels[i];
+        if(p>from && p<=to)sell(p);
+      }
+    }else{
+      for(let i=levels.length-2;i>=1;i--){
+        const p=levels[i];
+        if(p<from && p>=to)buy(p);
+      }
+    }
+  }
+
+  const firstClose=number(klines[0].close)||start;
+  curve.push(cash+coin*firstClose);
+
+  for(let i=1;i<klines.length;i++){
+    const k=klines[i];
+    const o=number(k.open);
+    const h=number(k.high);
+    const l=number(k.low);
+    const c=number(k.close);
+    if(!o||!h||!l||!c)continue;
+
+    if(c>=o){
+      move(o,l);
+      move(l,h);
+      move(h,c);
+    }else{
+      move(o,h);
+      move(h,l);
+      move(l,c);
+    }
+    curve.push(cash+coin*c);
+  }
+
+  const finalValue=cash+coin*end;
+  const profit=finalValue-capital;
+  const roi=profit/capital*100;
+
+  return {
+    name:mode==="arithmetic"?"等差網格":"等比網格",
+    finalValue,profit,roi,
+    trades,feesPaid,
+    cash,coin,
+    drawdown:maxDrawdown(curve),
+    curve
+  };
+}
+
+function simulateHold(klines,capital,fee){
+  const start=number(klines[0].open)||number(klines[0].close);
+  const end=number(klines[klines.length-1].close);
+  const qty=capital/(start*(1+fee));
+  const finalValue=qty*end;
+  const profit=finalValue-capital;
+  const curve=klines.map(k=>qty*number(k.close));
+  return {
+    name:"買入持有",
+    finalValue,profit,
+    roi:profit/capital*100,
+    trades:1,
+    feesPaid:capital*fee,
+    cash:0,
+    coin:qty,
+    drawdown:maxDrawdown(curve),
+    curve
+  };
 }
 
 async function runBacktest(){
- if(!markets.length){alert("請先取得派網行情");return}
- if(running)return;
+  hideError("backtestError");
+  const btn=$("runBacktestBtn");
+  btn.disabled=true;
+  btn.textContent="回測執行中...";
+  $("backtestProgress").style.width="10%";
+  $("backtestStatus").textContent="正在取得派網歷史 K 線...";
 
- const days=num("days",180);
- const limit=num("limit",10);
- const range=num("gridRange",15)/100;
- const ratio=num("initialRatio",50)/100;
- const config={
-  capital:money(),
-  grids:grids(),
-  fee:fee(),
-  range,ratio
- };
+  try{
+    const symbol=$("backtestSymbol").value;
+    const days=Number($("backtestDays").value);
+    const capital=number($("backtestCapital").value);
+    const grids=Math.max(2,Math.min(200,Math.floor(number($("backtestGrids").value))));
+    const upper=number($("backtestUpper").value);
+    const lower=number($("backtestLower").value);
+    const fee=number($("backtestFee").value)/100;
 
- if(range<=0||range>=.8||ratio<=0||ratio>=1){
-  alert("請檢查網格範圍及初始資產比例");
-  return;
- }
+    if(capital<=0||upper<=0||lower<=0){
+      throw new Error("請輸入有效本金及網格上下界");
+    }
 
- let candidates=markets.filter(t=>{
-  if(strategyCat==="all")return true;
-  return kind(t.symbol)===strategyCat;
- });
- candidates.sort((a,b)=>b.amount-a.amount);
- candidates=candidates.slice(0,limit);
+    const klines=await getKlines(symbol,days);
+    if(klines.length<3){
+      throw new Error("取得的日 K 線不足，無法回測");
+    }
 
- if(!candidates.length){alert("沒有可回測的交易對");return}
+    $("backtestProgress").style.width="45%";
+    $("backtestStatus").textContent="正在模擬三種交易策略...";
 
- running=true;
- $("runBacktest").disabled=true;
- $("runBacktest").textContent="正在進行歷史回測...";
- $("backTable").innerHTML='<tr><td colspan="9" class="empty">取得歷史 K 線並計算資產帳本...</td></tr>';
- $("bestDetail").innerHTML='<div class="empty">回測處理中...</div>';
+    const config={capital,grids,upper,lower,fee};
+    const a=simulateGrid(klines,config,"arithmetic");
+    const b=simulateGrid(klines,config,"geometric");
+    const c=simulateHold(klines,capital,fee);
+    const results=[a,b,c];
 
- const output=await pool(candidates,2,async t=>{
-  const k=await candles(t.symbol,days);
-  if(k.length<Math.min(days,10))return null;
-  const result=simulateGrid(k,config);
-  return result?{symbol:t.symbol,name:name(t.symbol),...result}:null;
- },(done,total)=>{
-  $("backBar").style.width=(done/total*100)+"%";
-  $("backProgress").textContent=`已完成 ${done}/${total} 個標的`;
- });
-
- backData=output.filter(Boolean).sort((a,b)=>b.totalProfit-a.totalProfit);
- renderBacktest();
-
- running=false;
- $("runBacktest").disabled=false;
- $("runBacktest").textContent="▶ 開始逐日網格回測";
+    $("backtestProgress").style.width="85%";
+    renderBacktest(results,klines,capital);
+    $("backtestProgress").style.width="100%";
+    $("backtestStatus").textContent=
+      "回測完成："+symbol+"，共 "+klines.length+" 根日 K 線。";
+  }catch(e){
+    showError("backtestError","回測失敗："+e.message);
+    $("backtestStatus").textContent="回測未完成";
+  }finally{
+    btn.disabled=false;
+    btn.textContent="▶ 開始三種策略回測";
+  }
 }
 
-/* ===============================
-   回測結果呈現
+function renderBacktest(results,klines,capital){
+  const sorted=results.slice().sort((a,b)=>b.finalValue-a.finalValue);
+  $("backtestTable").innerHTML=sorted.map(r=>`
+    <tr>
+      <td class="coin">${r.name}</td>
+      <td>${money(r.finalValue,2)}</td>
+      <td class="${r.profit>=0?"green":"red"}">${r.profit>=0?"+":""}${money(r.profit,2)}</td>
+      <td class="${r.roi>=0?"green":"red"}">${percent(r.roi)}</td>
+      <td class="red">${r.drawdown.toFixed(2)}%</td>
+      <td>${r.trades}</td>
+    </tr>
+  `).join("");
+
+  const first=number(klines[0].open)||number(klines[0].close);
+  const last=number(klines[klines.length-1].close);
+  $("btStart").textContent=money(first);
+  $("btEnd").textContent=money(last);
+  $("btBars").textContent=klines.length;
+
+  const hold=results.find(r=>r.name==="買入持有");
+  $("btHold").textContent=percent(hold.roi);
+  $("btHold").className="value "+(hold.roi>=0?"green":"red");
+
+  $("strategyDetails").innerHTML=results.map(r=>`
+    <div class="resultrow">
+      <div class="row">
+        <strong>${r.name}</strong>
+        <strong class="${r.profit>=0?"green":"red"}">${percent(r.roi)}</strong>
+      </div>
+      <div class="small muted" style="margin-top:6px">
+        期末現金：${money(r.cash,2)} USDT　
+        持幣：${money(r.coin,6)}<br>
+        累計手續費：${money(r.feesPaid,2)} USDT　
+        交易筆數：${r.trades}<br>
+        最大回撤：${r.drawdown.toFixed(2)}%
+      </div>
+    </div>
+  `).join("");
+
+  const max=Math.max(...results.map(r=>Math.max(0,r.finalValue)));
+  $("equityBars").innerHTML=results.map(r=>{
+    const width=max>0?Math.max(0,r.finalValue/max*100):0;
+    return `
+      <div style="margin:13px 0">
+        <div class="row">
+          <strong>${r.name}</strong>
+          <span>${money(r.finalValue,2)} USDT</span>
+        </div>
+        <div class="barline"><div style="width:${width}%"></div></div>
+        <div class="small ${r.roi>=0?"green":"red"}" style="margin-top:5px">
+          ${percent(r.roi)}
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+/* ==============================
+   頁面切換及事件
 ================================ */
 
-function renderBacktest(){
- const a=backData;
- if(!a.length){
-  $("backTable").innerHTML='<tr><td colspan="9" class="empty">沒有足夠的歷史資料完成回測</td></tr>';
-  return;
- }
-
- const best=a[0];
- $("bestName").textContent=base(best.symbol);
- $("bestProfit").textContent=fmt(best.totalProfit,2);
- $("bestReturn").textContent=percent(best.returnPct);
- $("bestDD").textContent=fmt(best.maxDD,2)+"%";
-
- $("backTable").innerHTML=a.map((x,i)=>`
- <tr>
- <td>${i+1}</td>
- <td><b>${escapeHTML(base(x.symbol))}</b><div class="pair">${escapeHTML(x.symbol)}</div></td>
- <td>${fmt(x.finalPrice,6)}</td>
- <td>${x.tradeCount}</td>
- <td class="${x.realized>=0?"green":"red"}">${fmt(x.realized,2)}</td>
- <td class="${x.unrealized>=0?"green":"red"}">${fmt(x.unrealized,2)}</td>
- <td class="${x.totalProfit>=0?"green":"red"}"><b>${fmt(x.totalProfit,2)}</b></td>
- <td class="${x.returnPct>=0?"cyan":"red"}">${percent(x.returnPct)}</td>
- <td class="red">${fmt(x.maxDD,2)}%</td>
- </tr>`).join("");
-
- renderBestDetail(best);
- renderTrades(best);
-}
-
-function renderBestDetail(x){
- $("bestDetail").innerHTML=`
- <div class="head">
- <strong class="cyan">${escapeHTML(x.symbol)} 資產帳本</strong>
- <span class="tag">歷史模擬</span>
- </div>
- <div class="cards">
- <div class="card">
- <div class="label">初始本金</div>
- <div class="value">${fmt(x.initial,2)} U</div>
- </div>
- <div class="card">
- <div class="label">期末總資產</div>
- <div class="value cyan">${fmt(x.finalEquity,2)} U</div>
- </div>
- <div class="card">
- <div class="label">期末剩餘 USDT</div>
- <div class="value">${fmt(x.cash,2)} U</div>
- </div>
- <div class="card">
- <div class="label">持有幣市值</div>
- <div class="value">${fmt(x.finalCoinValue,2)} U</div>
- </div>
- <div class="card">
- <div class="label">已實現利潤</div>
- <div class="value ${x.realized>=0?"green":"red"}">${fmt(x.realized,2)} U</div>
- </div>
- <div class="card">
- <div class="label">未實現盈虧</div>
- <div class="value ${x.unrealized>=0?"green":"red"}">${fmt(x.unrealized,2)} U</div>
- </div>
- <div class="card">
- <div class="label">累計手續費</div>
- <div class="value gold">${fmt(x.fees,2)} U</div>
- </div>
- <div class="card">
- <div class="label">最大資產回撤</div>
- <div class="value red">${fmt(x.maxDD,2)}%</div>
- </div>
- </div>
- <div class="info">
- 網格下限：${fmt(x.lower,6)}<br>
- 網格上限：${fmt(x.upper,6)}<br>
- 網格間距：${fmt(x.step*100,3)}%<br>
- 買進次數：${x.buys} 次<br>
- 賣出次數：${x.sells} 次<br>
- 因資金或持幣不足而略過：${x.skipped} 次<br>
- 期末持幣數量：${fmt(x.coin,8)}<br>
- 剩餘持幣成本基礎：${fmt(x.costBasis,2)} U<br>
- 期末資產折合台幣：NT$ ${fmt(x.finalEquity*num("rate",32.5),0)}<br>
- <hr>
- <b>淨利核對：</b><br>
- 已實現利潤 ${fmt(x.realized,4)}<br>
- + 未實現盈虧 ${fmt(x.unrealized,4)}<br>
- = 總淨利 ${fmt(x.totalProfit,4)} U<br>
- 期末資產 - 初始本金 = ${fmt(x.finalEquity-x.initial,4)} U
- </div>
- `;
-}
-
-function renderTrades(x){
- const a=x.trades.slice(-50).reverse();
- if(!a.length){
-  $("tradeTable").innerHTML='<tr><td colspan="6" class="empty">沒有完成交易</td></tr>';
-  return;
- }
- $("tradeTable").innerHTML=a.map(t=>`
- <tr>
- <td>${new Date(t.time).toLocaleDateString("zh-TW")}</td>
- <td class="${t.direction==="BUY"?"green":"gold"}">${t.direction==="BUY"?"買進":"賣出"}</td>
- <td>${fmt(t.price,6)}</td>
- <td>${fmt(t.qty,8)}</td>
- <td>${fmt(t.amount,4)}</td>
- <td>${fmt(t.fee,5)}</td>
- </tr>`).join("");
-}
-
-/* ===============================
-   頁面控制
-================================ */
-
-function page(p){
- ["grid","stocks","strategy"].forEach(x=>{
-  $(x).classList.toggle("hidden",x!==p);
- });
- document.querySelectorAll(".tab").forEach(b=>{
-  b.classList.toggle("active",b.dataset.page===p);
- });
- if(p==="stocks"&&!stockData.length&&markets.length)loadStocks();
-}
-
-["capital","rate"].forEach(id=>{
- $(id).addEventListener("input",updateMoney);
+document.querySelectorAll(".tab").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll(".tab").forEach(b=>b.classList.remove("active"));
+    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+    btn.classList.add("active");
+    $(btn.dataset.page).classList.add("active");
+    window.scrollTo({top:0,behavior:"smooth"});
+  });
 });
 
-["grids","fee"].forEach(id=>{
- $(id).addEventListener("change",()=>{
-  if(selected)renderSelected();
- });
+$("refreshBtn").addEventListener("click",loadMarket);
+$("coinSearch").addEventListener("input",renderMarket);
+$("sortMarket").addEventListener("change",renderMarket);
+$("rankDirection").addEventListener("change",renderRanking);
+$("calcBtn").addEventListener("click",updateGridCalc);
+
+["capital","gridCount","upperPct","lowerPct","feeRate"].forEach(id=>{
+  $(id).addEventListener("input",updateGridCalc);
 });
 
-async function initialize(){
- updateMoney();
- await refreshMarket();
-}
+$("selectedSymbol").addEventListener("change",updateGridCalc);
+$("historyRankBtn").addEventListener("click",loadHistoricalRanking);
+$("singleHistoryBtn").addEventListener("click",loadSingleHistory);
+$("runBacktestBtn").addEventListener("click",runBacktest);
 
-initialize();
-
-// 每60秒更新公開現貨行情
-setInterval(()=>{
- if(!running&&document.visibilityState==="visible")refreshMarket();
-},60000);
-
+/* 初始化 */
+loadMarket();
 </script>
 </body>
 </html>
